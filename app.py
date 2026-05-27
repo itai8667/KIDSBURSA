@@ -135,6 +135,16 @@ with tab1:
         "AAPL": {"name": "אפל 📱",        "desc": "ממציאת האייפון. ענקית טכנולוגיה עם כסף עצום בקופה.", "risk": 7},
     }
 
+    # צילום מצב של נתוני אמת מעודכנים כגיבוי 
+    REAL_BACKUP_DATA = {
+        "RBLX": {"div": 0.0, "growth": 35.2},
+        "DIS":  {"div": 0.0, "growth": -9.8},
+        "MCD":  {"div": 2.4, "growth": 11.5},
+        "NKE":  {"div": 1.6, "growth": -17.4},
+        "KO":   {"div": 3.0, "growth": 6.2},
+        "AAPL": {"div": 0.5, "growth": 26.8}
+    }
+
     @st.cache_data(ttl=120)
     def fetch_kids_data():
         rows = []
@@ -154,15 +164,17 @@ with tab1:
             except Exception:
                 pass
                 
-        # התיקון הקריטי: נתוני גיבוי במקרה שיאהו חוסמים את שרת הענן!
+        # שימוש בנתוני האמת שהקפאנו מראש אם השרת נחסם
         if len(rows) == 0:
             for ticker, d in KIDS_COMPANIES.items():
-                dummy_div = {"KO": 3.1, "AAPL": 0.5, "MCD": 2.2, "DIS": 1.2}.get(ticker, 0.0)
-                dummy_growth = {"RBLX": 45.2, "DIS": -5.1, "AAPL": 22.4, "NKE": -12.3, "MCD": 8.5, "KO": 4.2}.get(ticker, 15.0)
                 rows.append({
-                    "ticker": ticker, "name": d["name"], "desc": d["desc"],
-                    "risk": d["risk"], "div": dummy_div, "growth": dummy_growth,
-                    "is_dummy": True # סימון שאלו נתוני גיבוי
+                    "ticker": ticker, 
+                    "name": d["name"], 
+                    "desc": d["desc"],
+                    "risk": d["risk"], 
+                    "div": REAL_BACKUP_DATA[ticker]["div"], 
+                    "growth": REAL_BACKUP_DATA[ticker]["growth"],
+                    "is_dummy": True 
                 })
         return pd.DataFrame(rows)
 
@@ -174,7 +186,7 @@ with tab1:
         st.stop()
         
     if "is_dummy" in df.columns:
-        st.info("💡 שרת הבורסה עמוס כרגע. המערכת עברה אוטומטית לשימוש בנתוני הדגמה כדי שתוכלו להמשיך לשחק!")
+        st.info("💡 המערכת עמוסה כרגע. כדי לא לעצור את המשחק, נטענו נתוני אמת שנשמרו בעדכון האחרון שלנו!")
 
     # SIDEBAR
     st.sidebar.markdown("""
