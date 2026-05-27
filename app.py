@@ -115,11 +115,11 @@ if "active_tickers" not in st.session_state:
 # =================== תחילת הממשק ===================
 st.markdown("""
 <div class="mascot-card">
-    <div class="mascot-emoji">🦉</div>
-    <div class="mascot-text">
-        <h2>היי חברים! אני שוקי הינשוף!</h2>
-        <p>אני כאן כדי לעזור לכם להבין איך הבורסה עובדת. <br>מוכנים לצאת להרפתקה ולגלות איך החברות הכי גדולות בעולם עושות כסף?</p>
-    </div>
+<div class="mascot-emoji">🦉</div>
+<div class="mascot-text">
+<h2>היי חברים! אני שוקי הינשוף!</h2>
+<p>אני כאן כדי לעזור לכם להבין איך הבורסה עובדת. <br>מוכנים לצאת להרפתקה ולגלות איך החברות הכי גדולות בעולם עושות כסף?</p>
+</div>
 </div>
 """, unsafe_allow_html=True)
 
@@ -128,8 +128,8 @@ st.title("🎢 משחק ההשקעות הראשון שלי!")
 now_str = datetime.now().strftime("%H:%M:%S")
 st.markdown(f"""
 <div class="refresh-bar">
-  <span>🔄 הנתונים מתעדכנים אוטומטית מהבורסה</span>
-  <span>⏰ עדכון אחרון: {now_str}</span>
+<span>🔄 הנתונים מתעדכנים אוטומטית מהבורסה</span>
+<span>⏰ עדכון אחרון: {now_str}</span>
 </div>
 """, unsafe_allow_html=True)
 
@@ -187,8 +187,8 @@ with tab1:
     # סליידרים
     st.sidebar.markdown("""
     <div dir="rtl" style="text-align:right; font-family:'Heebo',sans-serif; padding-top:10px; border-top: 2px dashed #d1d5db;">
-      <h3 style="margin:10px 0 4px 0;">🕹️ איזה משקיע אתה?</h3>
-      <p style="font-size:13px; color:#6b7280; margin:0 0 15px 0;">הזז את המדים כדי להתאים את הציונים אליך!</p>
+    <h3 style="margin:10px 0 4px 0;">🕹️ איזה משקיע אתה?</h3>
+    <p style="font-size:13px; color:#6b7280; margin:0 0 15px 0;">הזז את המדים כדי להתאים את הציונים אליך!</p>
     </div>
     """, unsafe_allow_html=True)
 
@@ -207,7 +207,7 @@ with tab1:
     st.sidebar.markdown(f"""
     <div dir="rtl" style="font-size:12px;color:#6b7280;margin-top:-12px;font-family:Heebo,sans-serif;">1 = רק בטוחים &nbsp;|&nbsp; 10 = אוהב להסתכן!</div>
     <div dir="rtl" style="text-align:center;font-family:'Heebo',sans-serif;background:#f3f4f6;border-radius:8px;padding:8px;font-size:14px;margin-top:8px;">
-      סגנון ההשקעה שלך: <br><strong style="color:{risk_color_label};">{risk_text_label} ({w_risk}/10)</strong>
+    סגנון ההשקעה שלך: <br><strong style="color:{risk_color_label};">{risk_text_label} ({w_risk}/10)</strong>
     </div>
     """, unsafe_allow_html=True)
 
@@ -230,20 +230,20 @@ with tab1:
         g_sign = "+" if row["growth"] >= 0 else ""
         rows_html += f"""
         <tr>
-          <td><strong>{row['name']}</strong><br><small style="color:#6b7280;">{row['ticker']}</small></td>
-          <td><span class="risk-badge" style="background:{risk_color(row['risk'])};">{risk_label(row['risk'])} ({row['risk']}/10)</span></td>
-          <td>{row['div']}%</td>
-          <td class="{g_cls}">{g_sign}{row['growth']}%</td>
-          <td style="font-size:18px;letter-spacing:2px;">{stars}</td>
+        <td><strong>{row['name']}</strong><br><small style="color:#6b7280;">{row['ticker']}</small></td>
+        <td><span class="risk-badge" style="background:{risk_color(row['risk'])};">{risk_label(row['risk'])} ({row['risk']}/10)</span></td>
+        <td>{row['div']}%</td>
+        <td class="{g_cls}">{g_sign}{row['growth']}%</td>
+        <td style="font-size:18px;letter-spacing:2px;">{stars}</td>
         </tr>"""
 
     st.subheader("🏆 טבלת החברות להשקעה")
     st.markdown(f"""
     <table class="kids-table">
-      <thead><tr>
-        <th>🏢 שם החברה</th><th>🎢 רמת סיכון</th><th>💰 דמי כיס (%)</th><th>📈 צמיחה השנה</th><th>⭐ התאמה</th>
-      </tr></thead>
-      <tbody>{rows_html}</tbody>
+    <thead><tr>
+    <th>🏢 שם החברה</th><th>🎢 רמת סיכון</th><th>💰 דמי כיס (%)</th><th>📈 צמיחה השנה</th><th>⭐ התאמה</th>
+    </tr></thead>
+    <tbody>{rows_html}</tbody>
     </table>
     """, unsafe_allow_html=True)
 
@@ -258,49 +258,49 @@ with tab1:
 
     st.markdown(f"""
     <div dir="rtl" style="background:white; border: 2px solid #e5e7eb; border-radius:15px; padding:25px; margin-top: 15px; font-family:'Heebo',sans-serif; box-shadow: 0 4px 10px rgba(0,0,0,0.03);">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px dashed #e5e7eb; padding-bottom: 15px;">
-            <div>
-                <h2 style="margin:0 0 5px 0; color:#111827; font-size: 32px;">{sel['name']} ({sel['ticker']})</h2>
-                <span style="background-color: #f3f4f6; padding: 5px 12px; border-radius: 20px; font-weight: 600; color: #4b5563; font-size: 14px;">מדד התאמה אישי: {calc_stars(sel)}</span>
-            </div>
-            <img src="{sel['image']}" style="height: 60px; object-fit: contain;">
-        </div>
-        
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
-            <div style="background: #f8fafc; padding: 15px; border-radius: 10px;">
-                <h4 style="margin:0 0 10px 0; color:#3b82f6;">🏢 מה החברה עושה?</h4>
-                <p style="margin:0; color:#333;">{sel['desc']}</p>
-            </div>
-            <div style="background: #fffbeb; padding: 15px; border-radius: 10px;">
-                <h4 style="margin:0 0 10px 0; color:#d97706;">🛒 מה היא מוכרת לנו?</h4>
-                <p style="margin:0; color:#333;">{sel['products']}</p>
-            </div>
-        </div>
-        
-        <div style="background: #f0fdfa; padding: 15px; border-radius: 10px; margin-bottom: 25px;">
-            <h4 style="margin:0 0 5px 0; color:#0d9488;">💡 הידעת? (עובדת בונוס!)</h4>
-            <p style="margin:0; color:#115e59; font-weight: 600;">{sel['fun_fact']}</p>
-        </div>
-        
-        <h3 style="margin-bottom: 15px;">📊 המספרים של החברה</h3>
-        <div style="display: flex; gap: 15px; flex-wrap: wrap;">
-            <div style="flex: 1; background: #f3f4f6; padding: 15px; border-radius: 10px; text-align: center;">
-                <div style="font-size: 14px; color: #6b7280; margin-bottom: 5px; font-weight: 700;">מד סיכון</div>
-                <div style="font-size: 18px; margin-bottom: 5px;">{sel['risk']} / 10</div>
-                <div style="font-size: 12px;">{risk_dots}</div>
-            </div>
-            <div style="flex: 1; background: #f3f4f6; padding: 15px; border-radius: 10px; text-align: center;">
-                <div style="font-size: 14px; color: #6b7280; margin-bottom: 5px; font-weight: 700;">דמי כיס (דיבידנד)</div>
-                <div style="font-size: 24px; font-weight: 700; color: #111827;">{sel['div']}%</div>
-                <div style="font-size: 12px; color: #4b5563;">כסף שמקבלים לחשבון</div>
-            </div>
-            <div style="flex: 1; background: {'#dcfce7' if sel['growth'] >= 0 else '#fee2e2'}; padding: 15px; border-radius: 10px; text-align: center;">
-                <div style="font-size: 14px; color: #6b7280; margin-bottom: 5px; font-weight: 700;">בכמה המניה צמחה השנה?</div>
-                <div style="font-size: 24px; font-weight: 700; color: {'#166534' if sel['growth'] >= 0 else '#991b1b'};">
-                    {'+' if sel['growth']>=0 else ''}{sel['growth']}%
-                </div>
-            </div>
-        </div>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px dashed #e5e7eb; padding-bottom: 15px;">
+    <div>
+    <h2 style="margin:0 0 5px 0; color:#111827; font-size: 32px;">{sel['name']} ({sel['ticker']})</h2>
+    <span style="background-color: #f3f4f6; padding: 5px 12px; border-radius: 20px; font-weight: 600; color: #4b5563; font-size: 14px;">מדד התאמה אישי: {calc_stars(sel)}</span>
+    </div>
+    <img src="{sel['image']}" style="height: 60px; object-fit: contain;">
+    </div>
+    
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+    <div style="background: #f8fafc; padding: 15px; border-radius: 10px;">
+    <h4 style="margin:0 0 10px 0; color:#3b82f6;">🏢 מה החברה עושה?</h4>
+    <p style="margin:0; color:#333;">{sel['desc']}</p>
+    </div>
+    <div style="background: #fffbeb; padding: 15px; border-radius: 10px;">
+    <h4 style="margin:0 0 10px 0; color:#d97706;">🛒 מה היא מוכרת לנו?</h4>
+    <p style="margin:0; color:#333;">{sel['products']}</p>
+    </div>
+    </div>
+    
+    <div style="background: #f0fdfa; padding: 15px; border-radius: 10px; margin-bottom: 25px;">
+    <h4 style="margin:0 0 5px 0; color:#0d9488;">💡 הידעת? (עובדת בונוס!)</h4>
+    <p style="margin:0; color:#115e59; font-weight: 600;">{sel['fun_fact']}</p>
+    </div>
+    
+    <h3 style="margin-bottom: 15px;">📊 המספרים של החברה</h3>
+    <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+    <div style="flex: 1; background: #f3f4f6; padding: 15px; border-radius: 10px; text-align: center;">
+    <div style="font-size: 14px; color: #6b7280; margin-bottom: 5px; font-weight: 700;">מד סיכון</div>
+    <div style="font-size: 18px; margin-bottom: 5px;">{sel['risk']} / 10</div>
+    <div style="font-size: 12px;">{risk_dots}</div>
+    </div>
+    <div style="flex: 1; background: #f3f4f6; padding: 15px; border-radius: 10px; text-align: center;">
+    <div style="font-size: 14px; color: #6b7280; margin-bottom: 5px; font-weight: 700;">דמי כיס (דיבידנד)</div>
+    <div style="font-size: 24px; font-weight: 700; color: #111827;">{sel['div']}%</div>
+    <div style="font-size: 12px; color: #4b5563;">כסף שמקבלים לחשבון</div>
+    </div>
+    <div style="flex: 1; background: {'#dcfce7' if sel['growth'] >= 0 else '#fee2e2'}; padding: 15px; border-radius: 10px; text-align: center;">
+    <div style="font-size: 14px; color: #6b7280; margin-bottom: 5px; font-weight: 700;">בכמה המניה צמחה השנה?</div>
+    <div style="font-size: 24px; font-weight: 700; color: {'#166534' if sel['growth'] >= 0 else '#991b1b'};">
+    {'+' if sel['growth']>=0 else ''}{sel['growth']}%
+    </div>
+    </div>
+    </div>
     </div>
     """, unsafe_allow_html=True)
     
@@ -323,25 +323,25 @@ with tab2:
 
     st.markdown("""
     <div class="explain-card" style="border-color:#6366f1;">
-      <span class="emoji-big">🍕</span>
-      <h3>שלב 1 — איך מתחילה חברה?</h3>
-      <p>דמיינו שפתחתם <strong>פיצרייה</strong>. קניתם תנור, קמח ועגבניות, והתחלתם למכור פיצות.<br><br>
-      אם הרבה אנשים באים לקנות — הפיצרייה שלכם מרוויחה כסף ומצליחה! 🎉</p>
+    <span class="emoji-big">🍕</span>
+    <h3>שלב 1 — איך מתחילה חברה?</h3>
+    <p>דמיינו שפתחתם <strong>פיצרייה</strong>. קניתם תנור, קמח ועגבניות, והתחלתם למכור פיצות.<br><br>
+    אם הרבה אנשים באים לקנות — הפיצרייה שלכם מרוויחה כסף ומצליחה! 🎉</p>
     </div>
 
     <div class="explain-card" style="border-color:#10b981;">
-      <span class="emoji-big">🧩</span>
-      <h3>שלב 2 — מה זו בעצם מניה?</h3>
-      <p>נניח שהפיצה שלכם כל כך טעימה, שאתם רוצים לפתוח <strong>עוד 10 סניפים!</strong> אבל... אין לכם מספיק כסף.<br><br>
-      מה עושים? אתם מציעים לחברים: <strong>"תנו לי קצת כסף, ובתמורה אתן לכם חתיכה מהחברה שלי!"</strong><br><br>
-      כל חתיכה כזאת נקראת <strong>מניה</strong>. כשקונים מניה, הופכים ל<strong>שותפים</strong> קטנטנים בחברה!</p>
+    <span class="emoji-big">🧩</span>
+    <h3>שלב 2 — מה זו בעצם מניה?</h3>
+    <p>נניח שהפיצה שלכם כל כך טעימה, שאתם רוצים לפתוח <strong>עוד 10 סניפים!</strong> אבל... אין לכם מספיק כסף.<br><br>
+    מה עושים? אתם מציעים לחברים: <strong>"תנו לי קצת כסף, ובתמורה אתן לכם חתיכה מהחברה שלי!"</strong><br><br>
+    כל חתיכה כזאת נקראת <strong>מניה</strong>. כשקונים מניה, הופכים ל<strong>שותפים</strong> קטנטנים בחברה!</p>
     </div>
 
     <div class="explain-card" style="border-color:#f59e0b;">
-      <span class="emoji-big">💰</span>
-      <h3>שלב 3 — איך מרוויחים?</h3>
-      <p><strong>1️⃣ המניה נהיית שווה יותר (צמיחה):</strong> אם החברה מצליחה, כולם ירצו לקנות את ה"חתיכות" שלה. תוכלו למכור אותן ביותר ממה שקניתם! 🤑<br><br>
-      <strong>2️⃣ דמי כיס (דיבידנד):</strong> כשהחברה מרוויחה המון, היא מחלקת לשותפים שלה חלק מהרווחים במזומן ישר לחשבון! 💌</p>
+    <span class="emoji-big">💰</span>
+    <h3>שלב 3 — איך מרוויחים?</h3>
+    <p><strong>1️⃣ המניה נהיית שווה יותר (צמיחה):</strong> אם החברה מצליחה, כולם ירצו לקנות את ה"חתיכות" שלה. תוכלו למכור אותן ביותר ממה שקניתם! 🤑<br><br>
+    <strong>2️⃣ דמי כיס (דיבידנד):</strong> כשהחברה מרוויחה המון, היא מחלקת לשותפים שלה חלק מהרווחים במזומן ישר לחשבון! 💌</p>
     </div>
     """, unsafe_allow_html=True)
 
@@ -354,8 +354,8 @@ with tab2:
 
     st.markdown(f"""
     <div dir="rtl" style="font-family:'Heebo',sans-serif; margin: 24px 0 12px 0;">
-      <h3 style="margin-bottom:4px;">🧠 החידון של שוקי הינשוף!</h3>
-      <p style="color:#6b7280; font-size:14px; margin:0;">בואו נבדוק מה למדנו עד עכשיו (השאלות מתחלפות אוטומטית):</p>
+    <h3 style="margin-bottom:4px;">🧠 החידון של שוקי הינשוף!</h3>
+    <p style="color:#6b7280; font-size:14px; margin:0;">בואו נבדוק מה למדנו עד עכשיו (השאלות מתחלפות אוטומטית):</p>
     </div>
     """, unsafe_allow_html=True)
 
@@ -365,7 +365,7 @@ with tab2:
     for i, item in enumerate(shown_qs):
         st.markdown(f"""
         <div class="quiz-card">
-          <h4>❓ שאלה {i+1}: {item['q']}</h4>
+        <h4>❓ שאלה {i+1}: {item['q']}</h4>
         </div>
         """, unsafe_allow_html=True)
 
