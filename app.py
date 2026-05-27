@@ -23,7 +23,11 @@ h1, h2, h3, h4, h5, h6 { direction: rtl !important; text-align: right !important
 [data-testid="stSidebar"] h1,[data-testid="stSidebar"] h2,[data-testid="stSidebar"] h3,[data-testid="stSidebar"] p {
     direction: rtl !important; text-align: right !important; font-family: 'Heebo', sans-serif !important;
 }
+
+/* סידור המדים והאפשרויות לימין */
 [data-testid="stSlider"] { direction: ltr !important; }
+[data-testid="stRadio"] { direction: rtl !important; text-align: right !important; }
+
 .stTabs [data-baseweb="tab-list"] { direction: rtl !important; gap: 6px; }
 .stTabs [data-baseweb="tab"] { font-size: 17px !important; font-weight: 700 !important; font-family: 'Heebo', sans-serif !important; }
 [data-testid="metric-container"] { text-align: right !important; }
@@ -45,21 +49,6 @@ div.stButton > button:hover { background: linear-gradient(135deg, #d97706 0%, #b
 .mascot-emoji { font-size: 80px; line-height: 1; }
 .mascot-text h2 { margin: 0 0 10px 0; color: #0369a1; font-size: 28px; }
 .mascot-text p { margin: 0; color: #0c4a6e; font-size: 18px; line-height: 1.5; font-weight: 600; }
-
-.explain-card {
-    background: white; border-radius: 16px; padding: 24px 28px; margin-bottom: 20px;
-    box-shadow: 0 2px 16px rgba(0,0,0,0.07); direction: rtl; text-align: right;
-    font-family: 'Heebo', sans-serif; border-right: 6px solid #4f46e5;
-}
-.explain-card h3 { margin: 0 0 10px 0; font-size: 22px; }
-.explain-card p  { margin: 0; font-size: 16px; line-height: 1.8; color: #374151; }
-.explain-card .emoji-big { font-size: 48px; margin-bottom: 10px; display: block; }
-
-.quiz-card {
-    background: #fefce8; border-radius: 16px; padding: 20px 24px; margin-bottom: 16px;
-    border: 2px dashed #fbbf24; direction: rtl; text-align: right; font-family: 'Heebo', sans-serif;
-}
-.quiz-card h4 { color: #92400e; margin: 0 0 8px 0; font-size: 17px; }
 
 .refresh-bar {
     background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 10px; padding: 8px 16px;
@@ -313,64 +302,53 @@ with tab1:
     except Exception:
         st.warning("לא ניתן לטעון גרף כרגע.")
 
-# =================== טאב הסבר ===================
+# =================== טאב הסבר - בנוי מחדש ונקי מבאגים! ===================
 with tab2:
-    st.markdown("""
-    <div dir="rtl" style="text-align:right; font-family:'Heebo',sans-serif;">
-    <h2 style="font-size:26px;">📖 המדריך של שוקי הינשוף לבורסה</h2>
-    </div>
-    """, unsafe_allow_html=True)
+    st.header("📖 המדריך של שוקי הינשוף לבורסה")
+    st.write("ברוכים הבאים לבית הספר להשקעות! בואו נבין איך כל העסק הזה עובד:")
 
-    st.markdown("""
-    <div class="explain-card" style="border-color:#6366f1;">
-    <span class="emoji-big">🍕</span>
-    <h3>שלב 1 — איך מתחילה חברה?</h3>
-    <p>דמיינו שפתחתם <strong>פיצרייה</strong>. קניתם תנור, קמח ועגבניות, והתחלתם למכור פיצות.<br><br>
-    אם הרבה אנשים באים לקנות — הפיצרייה שלכם מרוויחה כסף ומצליחה! 🎉</p>
-    </div>
+    # שימוש ברכיבי מידע מובנים של Streamlit למניעת באגים של HTML
+    st.info("""
+    ### 🍕 שלב 1 — איך מתחילה חברה?
+    דמיינו שפתחתם **פיצרייה**. קניתם תנור, קמח ועגבניות, והתחלתם למכור פיצות.
+    
+    אם הרבה אנשים באים לקנות — הפיצרייה שלכם מרוויחה כסף ומצליחה! 🎉
+    """)
 
-    <div class="explain-card" style="border-color:#10b981;">
-    <span class="emoji-big">🧩</span>
-    <h3>שלב 2 — מה זו בעצם מניה?</h3>
-    <p>נניח שהפיצה שלכם כל כך טעימה, שאתם רוצים לפתוח <strong>עוד 10 סניפים!</strong> אבל... אין לכם מספיק כסף.<br><br>
-    מה עושים? אתם מציעים לחברים: <strong>"תנו לי קצת כסף, ובתמורה אתן לכם חתיכה מהחברה שלי!"</strong><br><br>
-    כל חתיכה כזאת נקראת <strong>מניה</strong>. כשקונים מניה, הופכים ל<strong>שותפים</strong> קטנטנים בחברה!</p>
-    </div>
+    st.success("""
+    ### 🧩 שלב 2 — מה זו בעצם מניה?
+    נניח שהפיצה שלכם כל כך טעימה, שאתם רוצים לפתוח **עוד 10 סניפים!** אבל... אין לכם מספיק כסף.
+    
+    מה עושים? אתם מציעים לחברים: **"תנו לי קצת כסף, ובתמורה אתן לכם חתיכה מהחברה שלי!"**
+    
+    כל חתיכה כזאת נקראת **מניה**. כשאתם קונים מניה של אפל או דיסני, אתם הופכים ל**שותפים** קטנטנים בחברה שלהם!
+    """)
 
-    <div class="explain-card" style="border-color:#f59e0b;">
-    <span class="emoji-big">💰</span>
-    <h3>שלב 3 — איך מרוויחים?</h3>
-    <p><strong>1️⃣ המניה נהיית שווה יותר (צמיחה):</strong> אם החברה מצליחה, כולם ירצו לקנות את ה"חתיכות" שלה. תוכלו למכור אותן ביותר ממה שקניתם! 🤑<br><br>
-    <strong>2️⃣ דמי כיס (דיבידנד):</strong> כשהחברה מרוויחה המון, היא מחלקת לשותפים שלה חלק מהרווחים במזומן ישר לחשבון! 💌</p>
-    </div>
-    """, unsafe_allow_html=True)
+    st.warning("""
+    ### 💰 שלב 3 — איך מרוויחים מזה כסף?
+    **1️⃣ המניה נהיית שווה יותר (צמיחה):** אם החברה מצליחה, כולם ירצו לקנות את ה"חתיכות" שלה. ככל שיש יותר ביקוש, המחיר עולה ותוכלו למכור אותן ביותר ממה שקניתם! 🤑
+    
+    **2️⃣ דמי כיס (דיבידנד):** כשהחברה מרוויחה המון, היא מחלקת לשותפים שלה חלק מהרווחים במזומן ישר לחשבון! 💌
+    """)
+
+    st.markdown("---")
+    st.subheader("🧠 החידון של שוקי הינשוף!")
+    st.write("בואו נבדוק מה למדנו עד עכשיו (השאלות מתחלפות אוטומטית בכל פעם שאתם מרעננים):")
 
     ALL_QUESTIONS = [
-        {"q": "קנית מניה ב-100 ₪, עכשיו היא שווה 130 ₪. כמה הרווחת?", "options": ["10 ₪", "30 ₪", "130 ₪", "כלום"], "answer": "30 ₪", "ok": "🎉 נכון! 130 - 100 = 30 ₪ רווח!", "bad": "❌ 130 פחות 100 שווה 30 ₪ — זה הרווח!"},
-        {"q": "מה זה דיבידנד?", "options": ["סוג של מניה", "כסף שחברה מחלקת למשקיעים", "שם של חברה", "הלוואה מהבנק"], "answer": "כסף שחברה מחלקת למשקיעים", "ok": "🎉 מעולה! דיבידנד = דמי כיס מהחברה!", "bad": "❌ דיבידנד הוא כסף שחברה רווחית מחלקת לבעלי המניות."},
-        {"q": "מה בדרך כלל יותר בטוח?", "options": ["לקנות מניה של חברה אחת", "לקנות קרן סל עם 500 חברות"], "answer": "לקנות קרן סל עם 500 חברות", "ok": "🎉 נכון! פיזור בין הרבה חברות = פחות סיכון!", "bad": "❌ קרן סל מפזרת בין הרבה חברות — הרבה יותר בטוח!"},
-        {"q": "חברה ותיקה כמו קוקה-קולה נחשבת...", "options": ["מסוכנת מאוד", "יציבה ובטוחה יחסית", "לא כדאית להשקעה", "גדלה מהר מאוד"], "answer": "יציבה ובטוחה יחסית", "ok": "🎉 נכון! חברות ותיקות בדרך כלל יציבות יותר.", "bad": "❌ חברות ותיקות כמו קוקה-קולה נחשבות יציבות."}
+        {"q": "קנית מניה ב-100 ₪, עכשיו היא שווה 130 ₪. כמה הרווחת?", "options": ["10 ₪", "30 ₪", "130 ₪", "כלום"], "answer": "30 ₪", "ok": "🎉 נכון! 130 פחות 100 שווה 30 ₪ רווח!", "bad": "❌ נסו לחשב שוב: 130 פחות 100 שווה 30 ₪!"},
+        {"q": "מה זה דיבידנד?", "options": ["סוג של מניה", "כסף שחברה מחלקת למשקיעים", "שם של חברה", "הלוואה מהבנק"], "answer": "כסף שחברה מחלקת למשקיעים", "ok": "🎉 מעולה! דיבידנד הוא כמו דמי כיס שהחברה מחלקת!", "bad": "❌ דיבידנד הוא כסף מזומן שחברה רווחית מחלקת למי שקנה את המניות שלה."},
+        {"q": "מה בדרך כלל יותר בטוח?", "options": ["לקנות מניה של חברה אחת בלבד", "לקנות קרן סל שכוללת המון חברות"], "answer": "לקנות קרן סל שכוללת המון חברות", "ok": "🎉 נכון! פיזור בין הרבה חברות = פחות סיכון!", "bad": "❌ כשקונים הרבה חברות יחד (קרן סל) הסיכון יורד כי אנחנו לא תלויים רק בחברה אחת."},
+        {"q": "חברה ותיקה ויציבה כמו קוקה-קולה נחשבת בדרך כלל...", "options": ["מסוכנת מאוד", "יציבה ובטוחה יחסית", "כמעט ולא מרוויחה", "גדלה הכי מהר בעולם"], "answer": "יציבה ובטוחה יחסית", "ok": "🎉 נכון! חברות ותיקות וענקיות נוטות להיות יציבות יותר.", "bad": "❌ חברות ותיקות כמו קוקה-קולה נחשבות יציבות כי כולם כבר מכירים אותן והן מוכרות באופן קבוע."}
     ]
-
-    st.markdown(f"""
-    <div dir="rtl" style="font-family:'Heebo',sans-serif; margin: 24px 0 12px 0;">
-    <h3 style="margin-bottom:4px;">🧠 החידון של שוקי הינשוף!</h3>
-    <p style="color:#6b7280; font-size:14px; margin:0;">בואו נבדוק מה למדנו עד עכשיו (השאלות מתחלפות אוטומטית):</p>
-    </div>
-    """, unsafe_allow_html=True)
 
     rng = random.Random(refresh_count)
     shown_qs = rng.sample(ALL_QUESTIONS, k=2)
 
     for i, item in enumerate(shown_qs):
-        st.markdown(f"""
-        <div class="quiz-card">
-        <h4>❓ שאלה {i+1}: {item['q']}</h4>
-        </div>
-        """, unsafe_allow_html=True)
-
+        st.markdown(f"#### ❓ שאלה {i+1}: {item['q']}")
         choice = st.radio(
-            item["q"],
+            "בחר תשובה נכונה:",
             item["options"],
             index=None,
             key=f"quiz_{refresh_count}_{i}",
@@ -380,4 +358,5 @@ with tab2:
             st.success(item["ok"])
         elif choice is not None:
             st.error(item["bad"])
-        st.write("")
+        
+        st.write("<br>", unsafe_allow_html=True)
