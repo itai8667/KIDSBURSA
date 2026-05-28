@@ -355,14 +355,44 @@ with tab1:
     </div>
     """, unsafe_allow_html=True)
 
+    # =================== הר הכסף (הגרף החדש!) ===================
     st.markdown("---")
-    st.subheader(f"📈 גרף מחיר — איך המניה של {selected_name} זזה השנה?")
+    st.subheader(f"🏔️ מסע המחיר — הר הכסף של {sel['name']}")
+    st.write("במקום גרף משעמם של מבוגרים, בואו נסתכל על המחיר כמו על מסע בהרים! ככל שההר עולה, החברה מרוויחה יותר וכל מניה שווה יותר כסף.")
+    
     try:
         hist = yf.Ticker(sel["ticker"]).history(period="1y")
         if not hist.empty:
-            st.line_chart(hist[["Close"]].rename(columns={"Close": "מחיר ($)"}), use_container_width=True)
+            min_price = hist["Close"].min()
+            max_price = hist["Close"].max()
+            curr_price = hist["Close"].iloc[-1]
+            
+            st.markdown(f"""
+            <div style="display: flex; gap: 15px; text-align: center; margin-bottom: 20px; flex-wrap: wrap; font-family:'Heebo',sans-serif;">
+                <div style="flex: 1; min-width: 150px; background: #eff6ff; padding: 15px; border-radius: 12px; border: 2px dashed #bfdbfe;">
+                    <span style="font-size: 30px;">📉</span><br>
+                    <strong>העמק הכי נמוך</strong><br>
+                    <span style="font-size: 13px; color: #64748b;">הכי זול שהיה השנה</span><br>
+                    <span style="font-size: 22px; font-weight: bold; color: #2563eb;">${min_price:.0f}</span>
+                </div>
+                <div style="flex: 1; min-width: 150px; background: #fdf4ff; padding: 15px; border-radius: 12px; border: 2px dashed #fbcfe8;">
+                    <span style="font-size: 30px;">⛰️</span><br>
+                    <strong>הפסגה הגבוהה</strong><br>
+                    <span style="font-size: 13px; color: #64748b;">הכי יקר שהיה השנה</span><br>
+                    <span style="font-size: 22px; font-weight: bold; color: #db2777;">${max_price:.0f}</span>
+                </div>
+                <div style="flex: 1; min-width: 150px; background: #f0fdf4; padding: 15px; border-radius: 12px; border: 2px dashed #bbf7d0;">
+                    <span style="font-size: 30px;">🚩</span><br>
+                    <strong>איפה אנחנו היום?</strong><br>
+                    <span style="font-size: 13px; color: #64748b;">המחיר ברגע זה ממש</span><br>
+                    <span style="font-size: 22px; font-weight: bold; color: #16a34a;">${curr_price:.0f}</span>
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
+            
+            st.area_chart(hist[["Close"]].rename(columns={"Close": "גובה ההר (מחיר החברה בדולרים)"}))
     except Exception:
-        st.warning("לא ניתן לטעון גרף כרגע.")
+        st.warning("שוקי הינשוף קצת התבלבל ולא הצליח לצייר את ההר כרגע. נסו שוב מאוחר יותר!")
 
 # =================== טאב הסבר וחידון ===================
 with tab2:
