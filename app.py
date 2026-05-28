@@ -5,7 +5,7 @@ import random
 from datetime import datetime
 from streamlit_autorefresh import st_autorefresh
 
-st.set_page_config(page_title="בורסה לילדים", layout="wide", initial_sidebar_state="collapsed")
+st.set_page_config(page_title="בורסה לילדים", layout="wide", initial_sidebar_state="expanded")
 
 # רענון אוטומטי כל 2 דקות
 refresh_count = st_autorefresh(interval=120000, limit=None, key="auto_refresh")
@@ -14,44 +14,23 @@ st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@400;600;700;900&display=swap');
 
+/* עיצוב כללי מימין לשמאל */
 .stApp { direction: rtl !important; font-family: 'Heebo', sans-serif !important; }
 .block-container { direction: rtl !important; max-width: 1100px; }
 
 h1, h2, h3, h4, h5, h6 { direction: rtl !important; text-align: right !important; font-family: 'Heebo', sans-serif !important; }
 .stMarkdown p, .stMarkdown li { direction: rtl !important; text-align: right !important; font-family: 'Heebo', sans-serif !important; }
 
-[data-testid="stSidebar"] .stMarkdown { direction: rtl !important; text-align: right !important; }
-[data-testid="stSidebar"] h1,[data-testid="stSidebar"] h2,[data-testid="stSidebar"] h3,[data-testid="stSidebar"] p {
-    direction: rtl !important; text-align: right !important; font-family: 'Heebo', sans-serif !important;
-}
+/* הגדרה נכונה לסרגל הצדדי מבלי לשבור אותו */
+[data-testid="stSidebar"] * { direction: rtl !important; text-align: right !important; font-family: 'Heebo', sans-serif !important; }
 [data-testid="stSlider"] { direction: ltr !important; }
 [data-testid="stRadio"] { direction: rtl !important; text-align: right !important; }
 
-/* ====== תיקון סיידבר לנייד ====== */
-@media (max-width: 768px) {
-    [data-testid="stSidebar"] {
-        width: 80vw !important;
-        max-width: 320px !important;
-        min-width: unset !important;
-        position: fixed !important;
-        z-index: 999 !important;
-        height: 100vh !important;
-        top: 0 !important;
-    }
-    [data-testid="stSidebar"][aria-expanded="true"] {
-        box-shadow: 4px 0 24px rgba(0,0,0,0.35) !important;
-    }
-    .main .block-container {
-        padding-left: 0.75rem !important;
-        padding-right: 0.75rem !important;
-        max-width: 100vw !important;
-    }
-}
-/* ================================= */
-
+/* עיצוב טאבים */
 .stTabs [data-baseweb="tab-list"] { direction: rtl !important; gap: 6px; }
 .stTabs [data-baseweb="tab"] { font-size: 17px !important; font-weight: 700 !important; font-family: 'Heebo', sans-serif !important; }
 
+/* כפתורים מותאמים */
 div.stButton > button {
     background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
     color: white; border-radius: 12px; border: none; padding: 12px;
@@ -60,6 +39,7 @@ div.stButton > button {
 }
 div.stButton > button:hover { background: linear-gradient(135deg, #d97706 0%, #b45309 100%); color: white; border: none; }
 
+/* טבלה מותאמת לסלולר */
 .table-wrapper { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; direction: rtl; margin-bottom: 20px;}
 .kids-table {
     width: 100%; border-collapse: collapse; min-width: 650px; font-size: 15px;
@@ -70,6 +50,7 @@ div.stButton > button:hover { background: linear-gradient(135deg, #d97706 0%, #b
 .kids-table tr:nth-child(even) td { background: #f8fafc; }
 .risk-badge { padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: bold; color: white; }
 
+/* כרטיסיות עיצוב כלליות */
 .info-box { background: #f8fafc; padding: 15px; border-radius: 12px; height: 100%; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
 .metric-box { padding: 15px; border-radius: 12px; text-align: center; height: 100%; display: flex; flex-direction: column; justify-content: center;}
 </style>
