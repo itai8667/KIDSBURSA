@@ -14,33 +14,31 @@ st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@400;600;700;900&display=swap');
 
-/* גופנים לכל האפליקציה */
-html, body, [class*="css"] {
-    font-family: 'Heebo', sans-serif !important;
-}
+/* פונט לכל האתר */
+* { font-family: 'Heebo', sans-serif !important; }
 
-/* המפתח לתיקון בטלפון: הופכים לעברית רק את התוכן הפנימי, ולא את מסגרת האתר! */
-/* זה שומר על מנגנון הסגירה/פתיחה של הסיידבאר תקין לחלוטין */
+/* הסוד לתיקון הסלולר: הופכים לעברית רק את גושי התוכן הפנימיים!
+זה שומר על המנגנון הטבעי של הסיידבאר ומונע ממנו להיתקע פתוח.
+*/
 .block-container, [data-testid="stSidebarUserContent"] {
     direction: rtl !important;
     text-align: right !important;
 }
 
-/* הבטחת יישור לימין לכל הרכיבים הפנימיים */
-h1, h2, h3, h4, h5, h6, p, li, label, .stMarkdown {
-    direction: rtl !important;
+/* יישור כל הטקסטים לימין */
+h1, h2, h3, h4, h5, h6, p, label, .stMarkdown {
     text-align: right !important;
+    direction: rtl !important;
 }
 
-/* הגנה על הסליידר (הוא חייב להיות מוגדר משמאל לימין כדי שהעיגול שלו יזוז נכון) */
+/* שמירה על הסליידרים כדי שהכפתור יזוז נכון */
 [data-testid="stSlider"] { direction: ltr !important; }
-[data-testid="stRadio"] { direction: rtl !important; text-align: right !important; }
 
 /* עיצוב טאבים */
 .stTabs [data-baseweb="tab-list"] { direction: rtl !important; gap: 6px; }
 .stTabs [data-baseweb="tab"] { font-size: 17px !important; font-weight: 700 !important; }
 
-/* כפתורים מותאמים */
+/* כפתור הגרלה כתום - מותאם ובולט */
 div.stButton > button {
     background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
     color: white; border-radius: 12px; border: none; padding: 12px;
@@ -49,7 +47,7 @@ div.stButton > button {
 }
 div.stButton > button:hover { background: linear-gradient(135deg, #d97706 0%, #b45309 100%); color: white; border: none; }
 
-/* טבלה מותאמת לסלולר */
+/* טבלה מותאמת לסלולר (גלילה הצידה חלקה) */
 .table-wrapper { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; direction: rtl; margin-bottom: 20px;}
 .kids-table {
     width: 100%; border-collapse: collapse; min-width: 650px; font-size: 15px;
@@ -60,13 +58,13 @@ div.stButton > button:hover { background: linear-gradient(135deg, #d97706 0%, #b
 .kids-table tr:nth-child(even) td { background: #f8fafc; }
 .risk-badge { padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: bold; color: white; }
 
-/* כרטיסיות עיצוב כלליות */
+/* קופסאות מידע ועיצוב */
 .info-box { background: #f8fafc; padding: 15px; border-radius: 12px; height: 100%; box-shadow: 0 2px 8px rgba(0,0,0,0.04); direction: rtl; }
 .metric-box { padding: 15px; border-radius: 12px; text-align: center; height: 100%; display: flex; flex-direction: column; justify-content: center; direction: rtl; }
 </style>
 """, unsafe_allow_html=True)
 
-# =================== מאגר חברות ===================
+# =================== מאגר חברות ענק ===================
 FULL_KIDS_COMPANIES = {
     "RBLX": {"name": "רובלוקס 🎮", "desc": "פלטפורמה ענקית לבניית משחקים.", "products": "עולמות וירטואליים וכסף משחק (Robux).", "fun_fact": "בכל יום נכנסים למשחק יותר מ-60 מיליון ילדים!", "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Roblox_player_icon_black.svg/120px-Roblox_player_icon_black.svg.png", "risk": 9},
     "DIS": {"name": "דיסני 🎢", "desc": "חברת הבידור והסרטים הגדולה בעולם.", "products": "סרטי מארוול, פארקי שעשועים ובובות.", "fun_fact": "הדמות הראשונה שוולט דיסני צייר הייתה ארנב, לא עכבר!", "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Disney_wordmark.svg/200px-Disney_wordmark.svg.png", "risk": 5},
@@ -93,6 +91,7 @@ st.info("🦉 **היי חברים! אני שוקי הינשוף!** \n\n אני �
 now_str = datetime.now().strftime("%H:%M:%S")
 st.success(f"🔄 **הנתונים מתעדכנים אוטומטית מהבורסה** | ⏰ עדכון אחרון: {now_str}")
 
+# הכפתור ממוקם בחוץ כך שהוא בולט לעין ולא נמעך בתפריט הצדדי
 if st.button("🎲 שוקי, תביא חברות חדשות!", use_container_width=True):
     st.session_state.active_tickers = random.sample(list(FULL_KIDS_COMPANIES.keys()), 6)
 
@@ -139,7 +138,7 @@ with tab1:
 
     # =================== סיידבר ===================
     st.sidebar.markdown("""
-    <div dir="rtl" style="text-align:right; font-family:'Heebo',sans-serif; padding-top:10px;">
+    <div dir="rtl" style="font-family:'Heebo',sans-serif; padding-top:10px;">
     <h3 style="margin:10px 0 4px 0;">🕹️ איזה משקיע אתה?</h3>
     <p style="font-size:13px; color:#6b7280; margin:0 0 15px 0;">הזז את המדים כדי להתאים את הציונים אליך!</p>
     </div>
