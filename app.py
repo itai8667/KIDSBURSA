@@ -34,12 +34,14 @@ h1, h2, h3, h4, h5, h6 { direction: rtl !important; text-align: right !important
 .stTabs [data-baseweb="tab-list"] { direction: rtl !important; gap: 6px; }
 .stTabs [data-baseweb="tab"] { font-size: 17px !important; font-weight: 700 !important; font-family: 'Heebo', sans-serif !important; }
 
-/* כפתור הגרלה */
+/* כפתור הגרלה כתום - מותאם למסך הראשי ולסלולר */
 div.stButton > button {
     background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-    color: white; border-radius: 12px; border: none; padding: 10px;
-    font-size: 16px; font-weight: 700; width: 100%; margin-bottom: 10px;
+    color: white; border-radius: 12px; border: none; padding: 12px;
+    font-size: 18px; font-weight: 700; width: 100%; margin-bottom: 20px;
+    box-shadow: 0 4px 10px rgba(245, 158, 11, 0.3);
 }
+div.stButton > button:hover { background: linear-gradient(135deg, #d97706 0%, #b45309 100%); color: white; border: none; }
 
 /* טבלה מותאמת לטלפון (גלילה הצידה) */
 .table-wrapper { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; direction: rtl; margin-bottom: 20px;}
@@ -85,7 +87,8 @@ st.info("🦉 **היי חברים! אני שוקי הינשוף!** \n\n אני �
 now_str = datetime.now().strftime("%H:%M:%S")
 st.success(f"🔄 **הנתונים מתעדכנים אוטומטית מהבורסה** | ⏰ עדכון אחרון: {now_str}")
 
-if st.sidebar.button("🎲 שוקי, תביא חברות חדשות!"):
+# הכפתור הכתום - עכשיו ממוקם מתחת לעדכון האחרון בתוך המסך הראשי כקופסה מסודרת!
+if st.button("🎲 שוקי, תביא חברות חדשות!", use_container_width=True):
     st.session_state.active_tickers = random.sample(list(FULL_KIDS_COMPANIES.keys()), 6)
 
 tab1, tab2 = st.tabs(["🚀 המשחק והחברות", "📚 הבורסה של שוקי"])
@@ -129,9 +132,9 @@ with tab1:
     if "is_dummy" in df.columns:
         st.warning("💡 המערכת עמוסה. נטענו נתוני גיבוי כדי שלא נפסיק לשחק!")
 
-    # =================== סליידרים (מתוקנים) ===================
+    # =================== סליידרים בצד ימין (הסיידבר) ===================
     st.sidebar.markdown("""
-    <div dir="rtl" style="text-align:right; font-family:'Heebo',sans-serif; padding-top:10px; border-top: 2px dashed #d1d5db;">
+    <div dir="rtl" style="text-align:right; font-family:'Heebo',sans-serif; padding-top:10px;">
     <h3 style="margin:10px 0 4px 0;">🕹️ איזה משקיע אתה?</h3>
     <p style="font-size:13px; color:#6b7280; margin:0 0 15px 0;">הזז את המדים כדי להתאים את הציונים אליך!</p>
     </div>
@@ -248,7 +251,7 @@ with tab1:
     with c3:
         st.markdown(f"<div class='metric-box' style='background:#1e293b; color:white;'><b>בעוד שנה יהיה לנו:</b><br><span style='font-size:26px;'>{final_amount:,.0f} ₪</span></div>", unsafe_allow_html=True)
 
-    # =================== מכונת הזמן במקום גרף ===================
+    # =================== מכונת הזמן ===================
     st.markdown("---")
     st.subheader(f"🕰️ מכונת הזמן של {sel['name']}")
     st.write("במקום להסתכל על גרף מסובך, בואו נראה מה קרה למחיר של החברה בשנה האחרונה:")
