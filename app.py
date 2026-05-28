@@ -112,7 +112,7 @@ FULL_BACKUP_DATA = {
     "HSY": {"div": 2.8, "growth": -10.0}, "MAT": {"div": 0.0, "growth": -5.0}
 }
 
-# ניהול הגרלת החברות
+# ניהול הגרלת החברות - שומרים בזיכרון כדי שלא יקפוץ
 if "active_tickers" not in st.session_state:
     st.session_state.active_tickers = random.sample(list(FULL_KIDS_COMPANIES.keys()), 6)
 
@@ -313,32 +313,32 @@ with tab1:
     
     # =================== מחשבון השקעות אינטראקטיבי ===================
     st.markdown("---")
-    st.subheader(f"🧮 מחשבון השקעות — בואו נבדוק כמה היינו מרוויחים ב-{sel['name']}!")
+    st.subheader(f"🧮 מחשבון השקעות — כמה יהיה לנו אם נשקיע היום ב-{sel['name']}?")
     
-    calc_type = st.radio("איך הייתם רוצים להשקיע?", ["השקעה חד פעמית (שמנו כסף לפני שנה וזהו)", "חסכון חודשי (שמנו קצת כסף כל חודש במשך שנה)"], horizontal=True)
-    amount = st.number_input("כמה כסף (בשקלים) הייתם שמים?", min_value=10, max_value=10000, value=100, step=10)
+    calc_type = st.radio("איך הייתם רוצים להשקיע?", ["השקעה חד פעמית (נשים סכום היום וזהו)", "חסכון חודשי (נשים קצת כסף כל חודש מעכשיו)"], horizontal=True)
+    amount = st.number_input("כמה כסף (בשקלים) הייתם רוצים לשים?", min_value=10, max_value=10000, value=100, step=10)
     
     if "חד פעמית" in calc_type:
         total_invested = amount
         total_profit = amount * (sel['growth'] / 100)
         final_amount = total_invested + total_profit
-        desc_text = f"שמנו {amount} ₪ בקופה לפני שנה, ולא נגענו."
+        desc_text = f"נניח ששמנו היום {amount} ₪ בקופה, והחברה תגדל בדיוק כמו בשנה שעברה."
     else:
         total_invested = amount * 12
         # בחיסכון חודשי הכסף לא יושב שנה שלמה אלא חצי שנה בממוצע, לכן נחלק את הצמיחה ב-2 כהערכה לילדים
         total_profit = total_invested * (sel['growth'] / 100) / 2 
         final_amount = total_invested + total_profit
-        desc_text = f"שמנו {amount} ₪ בכל חודש (כפול 12 חודשים)."
+        desc_text = f"נניח שנשים {amount} ₪ בכל חודש (סה״כ {total_invested} ₪ בשנה), והחברה תגדל כמו בשנה שעברה."
         
     profit_color = "#16a34a" if total_profit >= 0 else "#dc2626"
-    profit_text = "הרווחנו מהבורסה" if total_profit >= 0 else "הפסדנו מהבורסה"
+    profit_text = "הרווח הצפוי" if total_profit >= 0 else "ההפסד הצפוי"
     
     st.markdown(f"""
     <div style="background: #f8fafc; border-radius: 12px; padding: 20px; text-align: center; border: 2px solid #e2e8f0; font-family:'Heebo',sans-serif;">
         <h4 style="margin-top: 0; color: #334155;">התוצאה: {desc_text}</h4>
         <div class="calc-grid" style="display: flex; justify-content: space-around; align-items: center; margin-top: 20px;">
             <div style="background: white; padding: 15px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); width: 100%; max-width: 200px;">
-                <p style="margin: 0; color: #64748b; font-size: 14px; font-weight: bold;">הכסף שהכנסנו מקופת החיסכון:</p>
+                <p style="margin: 0; color: #64748b; font-size: 14px; font-weight: bold;">הכסף שנכניס מהקופה שלנו:</p>
                 <h3 style="margin: 5px 0 0 0; color: #0f172a;">{total_invested:,.0f} ₪</h3>
             </div>
             <div style="font-size: 24px; color: #94a3b8;">+</div>
@@ -348,7 +348,7 @@ with tab1:
             </div>
             <div style="font-size: 24px; color: #94a3b8;">=</div>
             <div style="background: #1e293b; padding: 15px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); width: 100%; max-width: 200px;">
-                <p style="margin: 0; color: #cbd5e1; font-size: 14px; font-weight: bold;">היום היה לנו ביד:</p>
+                <p style="margin: 0; color: #cbd5e1; font-size: 14px; font-weight: bold;">בעוד שנה יהיה לנו:</p>
                 <h3 style="margin: 5px 0 0 0; color: white;">{final_amount:,.0f} ₪</h3>
             </div>
         </div>
@@ -404,7 +404,7 @@ with tab2:
 
     st.markdown("---")
     st.subheader("🧠 החידון של שוקי הינשוף! (אינסוף שאלות)")
-    st.write("בואו נבדוק מה למדנו! השאלות מוגרלות **מחדש** בכל פעם, והמספרים בהן משתנים, כך שתמיד יהיה לכם אתגר חדש:")
+    st.write("בואו נבדוק מה למדנו! השאלות מתחלפות בכל פעם שהטיימר מגיע לאפס:")
 
     # מנוע אינסוף השאלות
     def get_infinite_questions_pool():
@@ -462,19 +462,22 @@ with tab2:
             
         return pool
 
-    ALL_QUESTIONS = get_infinite_questions_pool()
-    rng = random.Random(refresh_count)
-    shown_qs = rng.sample(ALL_QUESTIONS, k=5) 
+    # התיקון הקריטי: שמירת השאלות בזיכרון (session_state) כדי שלא יתחלפו באמצע פתרון החידון
+    if "quiz_questions" not in st.session_state or st.session_state.get("last_refresh") != refresh_count:
+        ALL_QUESTIONS = get_infinite_questions_pool()
+        st.session_state.quiz_questions = random.sample(ALL_QUESTIONS, k=5)
+        st.session_state.last_refresh = refresh_count
 
-    for i, item in enumerate(shown_qs):
+    for i, item in enumerate(st.session_state.quiz_questions):
         st.markdown(f"#### ❓ שאלה {i+1}: {item['q']}")
         choice = st.radio(
             "בחר תשובה נכונה:",
             item["options"],
             index=None,
-            key=f"quiz_{refresh_count}_{i}",
+            key=f"quiz_{st.session_state.last_refresh}_{i}",
             label_visibility="collapsed"
         )
+        
         if choice == item["answer"]:
             st.success(item["ok"])
         elif choice is not None:
