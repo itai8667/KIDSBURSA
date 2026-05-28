@@ -10,17 +10,24 @@ st.set_page_config(page_title="בורסה לילדים", layout="wide", initial_
 # רענון אוטומטי כל 2 דקות
 refresh_count = st_autorefresh(interval=120000, limit=None, key="auto_refresh")
 
+# עיצוב מותאם ומוגן (כדי לא לשבור את הסליידרים)
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@400;600;700;900&display=swap');
 
-.stApp, .stMarkdown, p, div, h1, h2, h3, h4, h5, h6, span, label {
-    direction: rtl !important;
-    text-align: right !important;
-    font-family: 'Heebo', sans-serif !important;
-}
+/* עיצוב כללי מימין לשמאל */
+.stApp { direction: rtl !important; font-family: 'Heebo', sans-serif !important; }
+.block-container { direction: rtl !important; max-width: 1100px; }
 
-[data-testid="stSlider"] { direction: ltr !important; }
+h1, h2, h3, h4, h5, h6 { direction: rtl !important; text-align: right !important; font-family: 'Heebo', sans-serif !important; }
+.stMarkdown p, .stMarkdown li { direction: rtl !important; text-align: right !important; font-family: 'Heebo', sans-serif !important; }
+
+/* הגנה על הסרגל הצדדי והסליידרים */
+[data-testid="stSidebar"] .stMarkdown { direction: rtl !important; text-align: right !important; }
+[data-testid="stSidebar"] h1,[data-testid="stSidebar"] h2,[data-testid="stSidebar"] h3,[data-testid="stSidebar"] p {
+    direction: rtl !important; text-align: right !important; font-family: 'Heebo', sans-serif !important;
+}
+[data-testid="stSlider"] { direction: ltr !important; } /* שומר על הסליידרים תקינים */
 [data-testid="stRadio"] { direction: rtl !important; text-align: right !important; }
 
 /* עיצוב טאבים */
@@ -35,13 +42,13 @@ div.stButton > button {
 }
 
 /* טבלה מותאמת לטלפון (גלילה הצידה) */
-.table-wrapper { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; direction: rtl; }
+.table-wrapper { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; direction: rtl; margin-bottom: 20px;}
 .kids-table {
     width: 100%; border-collapse: collapse; min-width: 650px; font-size: 15px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.05); border-radius: 10px; overflow: hidden;
 }
-.kids-table th { background: #4f46e5; color: white; padding: 12px; font-weight: 700; white-space: nowrap; }
-.kids-table td { padding: 12px; border-bottom: 1px solid #eee; background: white; vertical-align: middle; white-space: nowrap; }
+.kids-table th { background: #4f46e5; color: white; padding: 12px; text-align: right !important; font-weight: 700; white-space: nowrap; }
+.kids-table td { padding: 12px; text-align: right !important; border-bottom: 1px solid #eee; background: white; vertical-align: middle; white-space: nowrap; }
 .kids-table tr:nth-child(even) td { background: #f8fafc; }
 .risk-badge { padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: bold; color: white; }
 
@@ -122,11 +129,22 @@ with tab1:
     if "is_dummy" in df.columns:
         st.warning("💡 המערכת עמוסה. נטענו נתוני גיבוי כדי שלא נפסיק לשחק!")
 
-    # סליידרים
-    st.sidebar.markdown("### 🕹️ איזה משקיע אתה?")
-    w_growth = st.sidebar.slider("🚀 כמה חשובה לי צמיחה?", 0, 10, 5)
-    w_dividend = st.sidebar.slider("💰 כמה חשוב לי דמי כיס?", 0, 10, 5)
-    w_risk = st.sidebar.slider("🎢 כמה סיכון לקחת?", 1, 10, 5)
+    # =================== סליידרים (מתוקנים) ===================
+    st.sidebar.markdown("""
+    <div dir="rtl" style="text-align:right; font-family:'Heebo',sans-serif; padding-top:10px; border-top: 2px dashed #d1d5db;">
+    <h3 style="margin:10px 0 4px 0;">🕹️ איזה משקיע אתה?</h3>
+    <p style="font-size:13px; color:#6b7280; margin:0 0 15px 0;">הזז את המדים כדי להתאים את הציונים אליך!</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.sidebar.markdown('<div dir="rtl" style="font-family:Heebo,sans-serif;font-weight:700;margin-bottom:4px;">🚀 כמה חשובה לי צמיחה מהירה?</div>', unsafe_allow_html=True)
+    w_growth = st.sidebar.slider(" ", 0, 10, 5, key="growth_slider")
+    
+    st.sidebar.markdown('<div dir="rtl" style="font-family:Heebo,sans-serif;font-weight:700;margin-bottom:4px;margin-top:10px;">💰 כמה חשוב לי לקבל דמי כיס?</div>', unsafe_allow_html=True)
+    w_dividend = st.sidebar.slider("  ", 0, 10, 5, key="div_slider")
+    
+    st.sidebar.markdown('<div dir="rtl" style="font-family:Heebo,sans-serif;font-weight:700;margin-bottom:4px;margin-top:10px;">🎢 כמה סיכון אני מוכן לקחת?</div>', unsafe_allow_html=True)
+    w_risk = st.sidebar.slider("   ", 1, 10, 5, key="risk_slider")
     
     def calc_stars(row):
         total_w = w_growth + w_dividend + 5
