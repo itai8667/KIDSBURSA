@@ -5,36 +5,53 @@ import random
 from datetime import datetime
 from streamlit_autorefresh import st_autorefresh
 
-st.set_page_config(page_title="בורסה לילדים", layout="wide", initial_sidebar_state="expanded")
+st.set_page_config(page_title="בורסה לילדים", layout="wide", initial_sidebar_state="collapsed")
 
 # רענון אוטומטי כל 2 דקות
 refresh_count = st_autorefresh(interval=120000, limit=None, key="auto_refresh")
 
-# עיצוב מותאם ומוגן (כדי לא לשבור את הסליידרים)
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@400;600;700;900&display=swap');
 
-/* עיצוב כללי מימין לשמאל */
 .stApp { direction: rtl !important; font-family: 'Heebo', sans-serif !important; }
 .block-container { direction: rtl !important; max-width: 1100px; }
 
 h1, h2, h3, h4, h5, h6 { direction: rtl !important; text-align: right !important; font-family: 'Heebo', sans-serif !important; }
 .stMarkdown p, .stMarkdown li { direction: rtl !important; text-align: right !important; font-family: 'Heebo', sans-serif !important; }
 
-/* הגנה על הסרגל הצדדי והסליידרים */
 [data-testid="stSidebar"] .stMarkdown { direction: rtl !important; text-align: right !important; }
 [data-testid="stSidebar"] h1,[data-testid="stSidebar"] h2,[data-testid="stSidebar"] h3,[data-testid="stSidebar"] p {
     direction: rtl !important; text-align: right !important; font-family: 'Heebo', sans-serif !important;
 }
-[data-testid="stSlider"] { direction: ltr !important; } /* שומר על הסליידרים תקינים */
+[data-testid="stSlider"] { direction: ltr !important; }
 [data-testid="stRadio"] { direction: rtl !important; text-align: right !important; }
 
-/* עיצוב טאבים */
+/* ====== תיקון סיידבר לנייד ====== */
+@media (max-width: 768px) {
+    [data-testid="stSidebar"] {
+        width: 80vw !important;
+        max-width: 320px !important;
+        min-width: unset !important;
+        position: fixed !important;
+        z-index: 999 !important;
+        height: 100vh !important;
+        top: 0 !important;
+    }
+    [data-testid="stSidebar"][aria-expanded="true"] {
+        box-shadow: 4px 0 24px rgba(0,0,0,0.35) !important;
+    }
+    .main .block-container {
+        padding-left: 0.75rem !important;
+        padding-right: 0.75rem !important;
+        max-width: 100vw !important;
+    }
+}
+/* ================================= */
+
 .stTabs [data-baseweb="tab-list"] { direction: rtl !important; gap: 6px; }
 .stTabs [data-baseweb="tab"] { font-size: 17px !important; font-weight: 700 !important; font-family: 'Heebo', sans-serif !important; }
 
-/* כפתור הגרלה כתום - מותאם למסך הראשי ולסלולר */
 div.stButton > button {
     background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
     color: white; border-radius: 12px; border: none; padding: 12px;
@@ -43,7 +60,6 @@ div.stButton > button {
 }
 div.stButton > button:hover { background: linear-gradient(135deg, #d97706 0%, #b45309 100%); color: white; border: none; }
 
-/* טבלה מותאמת לטלפון (גלילה הצידה) */
 .table-wrapper { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; direction: rtl; margin-bottom: 20px;}
 .kids-table {
     width: 100%; border-collapse: collapse; min-width: 650px; font-size: 15px;
@@ -54,13 +70,12 @@ div.stButton > button:hover { background: linear-gradient(135deg, #d97706 0%, #b
 .kids-table tr:nth-child(even) td { background: #f8fafc; }
 .risk-badge { padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: bold; color: white; }
 
-/* כרטיסיות עיצוב כלליות */
 .info-box { background: #f8fafc; padding: 15px; border-radius: 12px; height: 100%; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
 .metric-box { padding: 15px; border-radius: 12px; text-align: center; height: 100%; display: flex; flex-direction: column; justify-content: center;}
 </style>
 """, unsafe_allow_html=True)
 
-# =================== מאגר חברות ענק ===================
+# =================== מאגר חברות ===================
 FULL_KIDS_COMPANIES = {
     "RBLX": {"name": "רובלוקס 🎮", "desc": "פלטפורמה ענקית לבניית משחקים.", "products": "עולמות וירטואליים וכסף משחק (Robux).", "fun_fact": "בכל יום נכנסים למשחק יותר מ-60 מיליון ילדים!", "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Roblox_player_icon_black.svg/120px-Roblox_player_icon_black.svg.png", "risk": 9},
     "DIS": {"name": "דיסני 🎢", "desc": "חברת הבידור והסרטים הגדולה בעולם.", "products": "סרטי מארוול, פארקי שעשועים ובובות.", "fun_fact": "הדמות הראשונה שוולט דיסני צייר הייתה ארנב, לא עכבר!", "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Disney_wordmark.svg/200px-Disney_wordmark.svg.png", "risk": 5},
@@ -73,7 +88,7 @@ FULL_KIDS_COMPANIES = {
     "NFLX": {"name": "נטפליקס 🍿", "desc": "החברה שהמציאה את הצפייה הישירה בסדרות.", "products": "סרטים וסדרות דרך האינטרנט.", "fun_fact": "פעם, נטפליקס הייתה שולחת סרטים על דיסקים (DVD) לאנשים בדואר!", "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Netflix_2015_logo.svg/200px-Netflix_2015_logo.svg.png", "risk": 8},
     "AMZN": {"name": "אמזון 📦", "desc": "החנות האינטרנטית הגדולה בעולם.", "products": "אתר קניות שמגיע עד הבית ועוזרים חכמים (אלקסה).", "fun_fact": "כשהאתר הוקם, הוא מכר רק סוג אחד של מוצרים: ספרים!", "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Amazon_logo.svg/200px-Amazon_logo.svg.png", "risk": 6},
     "HSY": {"name": "הרשיז 🍫", "desc": "אחת מחברות השוקולד הגדולות באמריקה.", "products": "שוקולד, ריסס (Reese's) וסירופ לפנקייק.", "fun_fact": "בעיר שבה החברה נמצאת, אפילו פנסי הרחוב מעוצבים כמו נשיקות שוקולד!", "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/The_Hershey_Company_logo.svg/200px-The_Hershey_Company_logo.svg.png", "risk": 3},
-    "MAT": {"name": "מאטל 🏎️", "desc": "יצרנית הצעצועים הענקית.", "products": "ברבי, מכוניות הוט-ווילס (Hot Wheels) ומשחק הקלפים טאקי/אونو.", "fun_fact": "בובת הברבי הראשונה בעולם עלתה רק 3 דולר!", "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Mattel_logo.svg/200px-Mattel_logo.svg.png", "risk": 7}
+    "MAT": {"name": "מאטל 🏎️", "desc": "יצרנית הצעצועים הענקית.", "products": "ברבי, מכוניות הוט-ווילס (Hot Wheels) ומשחק הקלפים טאקי/אונו.", "fun_fact": "בובת הברבי הראשונה בעולם עלתה רק 3 דולר!", "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Mattel_logo.svg/200px-Mattel_logo.svg.png", "risk": 7}
 }
 
 FULL_BACKUP_DATA = {k: {"div": random.uniform(0, 4), "growth": random.uniform(-20, 50)} for k in FULL_KIDS_COMPANIES.keys()}
@@ -81,13 +96,12 @@ FULL_BACKUP_DATA = {k: {"div": random.uniform(0, 4), "growth": random.uniform(-2
 if "active_tickers" not in st.session_state:
     st.session_state.active_tickers = random.sample(list(FULL_KIDS_COMPANIES.keys()), 6)
 
-# =================== Header נקי ורספונסיבי ===================
+# =================== Header ===================
 st.info("🦉 **היי חברים! אני שוקי הינשוף!** \n\n אני כאן כדי לעזור לכם להבין איך הבורסה עובדת. מוכנים לצאת להרפתקה ולגלות איך החברות הכי גדולות בעולם עושות כסף?")
 
 now_str = datetime.now().strftime("%H:%M:%S")
 st.success(f"🔄 **הנתונים מתעדכנים אוטומטית מהבורסה** | ⏰ עדכון אחרון: {now_str}")
 
-# הכפתור הכתום - עכשיו ממוקם מתחת לעדכון האחרון בתוך המסך הראשי כקופסה מסודרת!
 if st.button("🎲 שוקי, תביא חברות חדשות!", use_container_width=True):
     st.session_state.active_tickers = random.sample(list(FULL_KIDS_COMPANIES.keys()), 6)
 
@@ -114,25 +128,25 @@ with tab1:
                 })
             except Exception:
                 pass
-                
+
         if len(rows) == 0:
             for ticker in tickers:
                 d = FULL_KIDS_COMPANIES[ticker]
                 rows.append({
                     "ticker": ticker, "name": d["name"], "desc": d["desc"],
                     "products": d["products"], "fun_fact": d["fun_fact"], "image": d["image"],
-                    "risk": d["risk"], "div": round(FULL_BACKUP_DATA[ticker]["div"], 2), 
-                    "growth": round(FULL_BACKUP_DATA[ticker]["growth"], 2), "is_dummy": True 
+                    "risk": d["risk"], "div": round(FULL_BACKUP_DATA[ticker]["div"], 2),
+                    "growth": round(FULL_BACKUP_DATA[ticker]["growth"], 2), "is_dummy": True
                 })
         return pd.DataFrame(rows)
 
     with st.spinner("🔄 שוקי אוסף נתונים..."):
         df = fetch_kids_data(tuple(st.session_state.active_tickers))
-        
+
     if "is_dummy" in df.columns:
         st.warning("💡 המערכת עמוסה. נטענו נתוני גיבוי כדי שלא נפסיק לשחק!")
 
-    # =================== סליידרים בצד ימין (הסיידבר) ===================
+    # =================== סיידבר ===================
     st.sidebar.markdown("""
     <div dir="rtl" style="text-align:right; font-family:'Heebo',sans-serif; padding-top:10px;">
     <h3 style="margin:10px 0 4px 0;">🕹️ איזה משקיע אתה?</h3>
@@ -142,13 +156,13 @@ with tab1:
 
     st.sidebar.markdown('<div dir="rtl" style="font-family:Heebo,sans-serif;font-weight:700;margin-bottom:4px;">🚀 כמה חשובה לי צמיחה מהירה?</div>', unsafe_allow_html=True)
     w_growth = st.sidebar.slider(" ", 0, 10, 5, key="growth_slider")
-    
+
     st.sidebar.markdown('<div dir="rtl" style="font-family:Heebo,sans-serif;font-weight:700;margin-bottom:4px;margin-top:10px;">💰 כמה חשוב לי לקבל דמי כיס?</div>', unsafe_allow_html=True)
     w_dividend = st.sidebar.slider("  ", 0, 10, 5, key="div_slider")
-    
+
     st.sidebar.markdown('<div dir="rtl" style="font-family:Heebo,sans-serif;font-weight:700;margin-bottom:4px;margin-top:10px;">🎢 כמה סיכון אני מוכן לקחת?</div>', unsafe_allow_html=True)
     w_risk = st.sidebar.slider("   ", 1, 10, 5, key="risk_slider")
-    
+
     def calc_stars(row):
         total_w = w_growth + w_dividend + 5
         if total_w == 0: total_w = 1
@@ -191,7 +205,6 @@ with tab1:
     selected_name = st.selectbox("בחרו חברה כדי ללמוד עליה ולחשב רווחים:", list(name_to_ticker.keys()))
     sel = df[df["name"] == selected_name].iloc[0]
 
-    # חלוקה לעמודות אמיתיות שקורסות בסלולר בצורה מושלמת
     col1, col2 = st.columns([1, 4])
     with col1:
         st.image(sel['image'], width=80)
@@ -210,7 +223,6 @@ with tab1:
     st.write("<br>", unsafe_allow_html=True)
     st.markdown(f"<div style='background:#f0fdfa; padding:15px; border-radius:12px; margin-bottom:20px;'><h4 style='color:#0d9488; margin-top:0;'>💡 הידעת?</h4>{sel['fun_fact']}</div>", unsafe_allow_html=True)
 
-    # נתונים במספרים בעמודות
     risk_dots = ("🔴" * sel['risk']) + ("⚪" * (10 - sel['risk']))
     col1, col2, col3 = st.columns(3)
     with col1:
@@ -225,24 +237,23 @@ with tab1:
     # =================== מחשבון ===================
     st.markdown("---")
     st.subheader(f"🧮 מחשבון השקעות — כמה יהיה לנו בעתיד?")
-    
+
     calc_type = st.radio("איך נרצה להשקיע?", ["השקעה פעם אחת היום", "חסכון קבוע (לשים קצת כל חודש)"], horizontal=True)
     amount = st.number_input("סכום בשקלים:", min_value=10, max_value=10000, value=100, step=10)
-    
+
     if "פעם אחת" in calc_type:
         total_invested = amount
         total_profit = amount * (sel['growth'] / 100)
     else:
         total_invested = amount * 12
-        total_profit = total_invested * (sel['growth'] / 100) / 2 
-        
+        total_profit = total_invested * (sel['growth'] / 100) / 2
+
     final_amount = total_invested + total_profit
     profit_text = "הרווח הצפוי" if total_profit >= 0 else "ההפסד הצפוי"
     profit_color = "#16a34a" if total_profit >= 0 else "#dc2626"
 
     st.write(f"נניח שנשקיע לפי התכנית שלנו, והחברה תגדל בשנה הקרובה בדיוק כמו שהיא גדלה בשנה שעברה. הנה התוצאה:")
-    
-    # מחשבון בנוי בעמודות לסלולר
+
     c1, c2, c3 = st.columns(3)
     with c1:
         st.markdown(f"<div class='metric-box' style='border:1px solid #e2e8f0;'><b>הכנסנו לקופה:</b><br><span style='font-size:26px;'>{total_invested:,.0f} ₪</span></div>", unsafe_allow_html=True)
@@ -255,14 +266,14 @@ with tab1:
     st.markdown("---")
     st.subheader(f"🕰️ מכונת הזמן של {sel['name']}")
     st.write("במקום להסתכל על גרף מסובך, בואו נראה מה קרה למחיר של החברה בשנה האחרונה:")
-    
+
     try:
         hist = yf.Ticker(sel["ticker"]).history(period="1y")
         if not hist.empty:
             min_price = hist["Close"].min()
             max_price = hist["Close"].max()
             curr_price = hist["Close"].iloc[-1]
-            
+
             c1, c2, c3 = st.columns(3)
             with c1:
                 st.markdown(f"<div class='metric-box' style='background:#eff6ff; border:2px dashed #bfdbfe;'>📉<br><b>הכי זול שהיה</b><br><span style='font-size:22px; color:#2563eb;'>${min_price:.0f}</span></div>", unsafe_allow_html=True)
@@ -271,14 +282,13 @@ with tab1:
             with c3:
                 st.markdown(f"<div class='metric-box' style='background:#f0fdf4; border:2px dashed #bbf7d0;'>🚩<br><b>המחיר היום</b><br><span style='font-size:22px; color:#16a34a;'>${curr_price:.0f}</span></div>", unsafe_allow_html=True)
 
-            # הפירוש של שוקי
             if curr_price >= max_price * 0.9:
                 verdict = "וואו! החברה נמצאת ממש קרוב לשיא שלה. כולם רוצים לקנות אותה עכשיו!"
             elif curr_price <= min_price * 1.1:
                 verdict = "החברה עברה שנה לא קלה, והמחיר שלה עכשיו נמוך מאוד. משקיעים חכמים אולי יחשבו שזו 'מכירת חיסול'!"
             else:
                 verdict = "החברה נמצאת איפשהו באמצע הדרך, עם עליות וירידות נורמליות."
-                
+
             st.info(f"🦉 **השורה התחתונה של שוקי:** {verdict}")
     except Exception:
         st.warning("שוקי לא הצליח להפעיל את מכונת הזמן כרגע.")
@@ -286,15 +296,15 @@ with tab1:
 # =================== טאב הסבר וחידון ===================
 with tab2:
     st.header("📖 המדריך של שוקי הינשוף לבורסה")
-    
+
     st.info("### 🍋 שלב 1 — מה זו בכלל חברה?\nתחשבו שפתחתם בקיץ **דוכן לימונדה** שכונתי. אם הרבה אנשים קונים מכם — הדוכן מרוויח כסף ומצליח! 🎉 חברות ענקיות כמו אפל עובדות בדיוק ככה, רק בגדול.")
-    st.video("https://www.youtube.com/watch?v=Kz6pG1Y4L1s") 
+    st.video("https://www.youtube.com/watch?v=Kz6pG1Y4L1s")
 
     st.success("### 🧩 שלב 2 — מה זו בעצם מניה?\nרוצים לפתוח **עוד 10 דוכנים** אבל אין כסף? אתם אומרים לחברים: 'תנו לי קצת כסף, ובתמורה אתן לכם חתיכה מהדוכן שלי!'. כל חתיכה כזאת נקראת **מניה**.")
-    st.video("https://www.youtube.com/watch?v=R9_W7z1RpsU") 
+    st.video("https://www.youtube.com/watch?v=R9_W7z1RpsU")
 
     st.warning("### 💰 שלב 3 — איך מרוויחים מזה כסף?\n**1️⃣ צמיחה:** אם החברה מצליחה, כולם רוצים את ה'חתיכות' שלה. המחיר עולה ותוכלו למכור ברווח! 🤑\n**2️⃣ דיבידנד:** כשהחברה מרוויחה המון, היא מחלקת לשותפים מזומן ישר לחשבון! 💌")
-    st.video("https://www.youtube.com/watch?v=e_K0XqQz7-s") 
+    st.video("https://www.youtube.com/watch?v=e_K0XqQz7-s")
 
     st.markdown("---")
     st.subheader("🧠 החידון של שוקי הינשוף! (אינסוף שאלות)")
@@ -322,7 +332,7 @@ with tab2:
                 "ok": f"🎉 אלופים! {sell} פחות {buy} שווה {profit} ₪ רווח!",
                 "bad": f"❌ לא נורא, נסו לחשב: {sell} פחות {buy} שווה {profit} ₪."
             })
-            
+
             invest = random.choice([100, 200, 300, 500])
             div_p = random.randint(2, 5)
             div_money = int(invest * (div_p / 100))
@@ -348,7 +358,7 @@ with tab2:
                 "ok": f"🎉 יפה שחישבתם נכון! {buy_2} פחות {sell_2} שווה להפסד של {loss} ₪.",
                 "bad": f"❌ החישוב הנכון הוא {buy_2} פחות {sell_2}, ולכן ההפסד הוא {loss} ₪."
             })
-            
+
         return pool
 
     if "quiz_questions" not in st.session_state or st.session_state.get("last_refresh") != refresh_count:
@@ -358,7 +368,7 @@ with tab2:
     for i, item in enumerate(st.session_state.quiz_questions):
         st.markdown(f"#### ❓ שאלה {i+1}: {item['q']}")
         choice = st.radio("בחר תשובה:", item["options"], index=None, key=f"quiz_{st.session_state.last_refresh}_{i}", label_visibility="collapsed")
-        
+
         if choice == item["answer"]:
             st.success(item["ok"])
         elif choice is not None:
