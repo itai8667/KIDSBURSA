@@ -5,7 +5,7 @@ import random
 from datetime import datetime
 from streamlit_autorefresh import st_autorefresh
 
-st.set_page_config(page_title="בורסה לילדים", layout="wide", initial_sidebar_state="expanded")
+st.set_page_config(page_title="בורסה לילדים", layout="wide", initial_sidebar_state="collapsed")
 
 # רענון אוטומטי כל 2 דקות
 refresh_count = st_autorefresh(interval=120000, limit=None, key="auto_refresh")
@@ -21,10 +21,35 @@ st.markdown("""
 h1, h2, h3, h4, h5, h6 { direction: rtl !important; text-align: right !important; font-family: 'Heebo', sans-serif !important; }
 .stMarkdown p, .stMarkdown li { direction: rtl !important; text-align: right !important; font-family: 'Heebo', sans-serif !important; }
 
-/* הגדרה נכונה לסרגל הצדדי מבלי לשבור אותו */
-[data-testid="stSidebar"] * { direction: rtl !important; text-align: right !important; font-family: 'Heebo', sans-serif !important; }
+[data-testid="stSidebar"] .stMarkdown { direction: rtl !important; text-align: right !important; }
+[data-testid="stSidebar"] h1,[data-testid="stSidebar"] h2,[data-testid="stSidebar"] h3,[data-testid="stSidebar"] p {
+    direction: rtl !important; text-align: right !important; font-family: 'Heebo', sans-serif !important;
+}
+
 [data-testid="stSlider"] { direction: ltr !important; }
 [data-testid="stRadio"] { direction: rtl !important; text-align: right !important; }
+
+/* ====== תיקון סיידבר לנייד ====== */
+@media (max-width: 768px) {
+    [data-testid="stSidebar"] {
+        width: 80vw !important;
+        max-width: 320px !important;
+        min-width: unset !important;
+        position: fixed !important;
+        z-index: 9999 !important;
+        height: 100vh !important;
+        top: 0 !important;
+    }
+    [data-testid="stSidebar"][aria-expanded="true"] {
+        box-shadow: -4px 0 24px rgba(0,0,0,0.35) !important;
+    }
+    .main .block-container {
+        padding-left: 0.75rem !important;
+        padding-right: 0.75rem !important;
+        max-width: 100vw !important;
+    }
+}
+/* ================================= */
 
 /* עיצוב טאבים */
 .stTabs [data-baseweb="tab-list"] { direction: rtl !important; gap: 6px; }
@@ -83,6 +108,7 @@ st.info("🦉 **היי חברים! אני שוקי הינשוף!** \n\n אני �
 now_str = datetime.now().strftime("%H:%M:%S")
 st.success(f"🔄 **הנתונים מתעדכנים אוטומטית מהבורסה** | ⏰ עדכון אחרון: {now_str}")
 
+# כפתור ההגרלה ממוקם מתחת להדר כדי לא להימעך בתפריט הצדדי
 if st.button("🎲 שוקי, תביא חברות חדשות!", use_container_width=True):
     st.session_state.active_tickers = random.sample(list(FULL_KIDS_COMPANIES.keys()), 6)
 
