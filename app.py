@@ -7,87 +7,51 @@ from streamlit_autorefresh import st_autorefresh
 
 st.set_page_config(page_title="בורסה לילדים", layout="wide", initial_sidebar_state="expanded")
 
-# רענון אוטומטי כל 2 דקות 
+# רענון אוטומטי כל 2 דקות
 refresh_count = st_autorefresh(interval=120000, limit=None, key="auto_refresh")
 
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@400;600;700;900&display=swap');
 
-.stApp { direction: rtl !important; font-family: 'Heebo', sans-serif !important; }
-.block-container { direction: rtl !important; max-width: 1100px; }
-
-h1, h2, h3, h4, h5, h6 { direction: rtl !important; text-align: right !important; font-family: 'Heebo', sans-serif !important; }
-.stMarkdown p, .stMarkdown li { direction: rtl !important; text-align: right !important; font-family: 'Heebo', sans-serif !important; }
-[data-testid="stSidebar"] .stMarkdown { direction: rtl !important; text-align: right !important; }
-[data-testid="stSidebar"] h1,[data-testid="stSidebar"] h2,[data-testid="stSidebar"] h3,[data-testid="stSidebar"] p {
-    direction: rtl !important; text-align: right !important; font-family: 'Heebo', sans-serif !important;
+.stApp, .stMarkdown, p, div, h1, h2, h3, h4, h5, h6, span, label {
+    direction: rtl !important;
+    text-align: right !important;
+    font-family: 'Heebo', sans-serif !important;
 }
 
-/* סידור המדים והאפשרויות לימין */
 [data-testid="stSlider"] { direction: ltr !important; }
 [data-testid="stRadio"] { direction: rtl !important; text-align: right !important; }
 
+/* עיצוב טאבים */
 .stTabs [data-baseweb="tab-list"] { direction: rtl !important; gap: 6px; }
 .stTabs [data-baseweb="tab"] { font-size: 17px !important; font-weight: 700 !important; font-family: 'Heebo', sans-serif !important; }
-[data-testid="metric-container"] { text-align: right !important; }
 
-/* עיצוב כפתור ההגרלה */
+/* כפתור הגרלה */
 div.stButton > button {
     background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
     color: white; border-radius: 12px; border: none; padding: 10px;
-    font-size: 16px; font-weight: 700; font-family: 'Heebo', sans-serif;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1); width: 100%; margin-bottom: 20px;
-}
-div.stButton > button:hover { background: linear-gradient(135deg, #d97706 0%, #b45309 100%); color: white; border: none; }
-
-.mascot-card {
-    background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
-    border-radius: 20px; padding: 20px 30px; display: flex; align-items: center; gap: 25px;
-    margin-bottom: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 3px solid #7dd3fc;
-}
-.mascot-emoji { font-size: 80px; line-height: 1; }
-.mascot-text h2 { margin: 0 0 10px 0; color: #0369a1; font-size: 28px; }
-.mascot-text p { margin: 0; color: #0c4a6e; font-size: 18px; line-height: 1.5; font-weight: 600; }
-
-.refresh-bar {
-    background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 10px; padding: 8px 16px;
-    margin-bottom: 16px; direction: rtl; font-family: 'Heebo', sans-serif; font-size: 13px; color: #166534;
-    display: flex; justify-content: space-between; align-items: center;
+    font-size: 16px; font-weight: 700; width: 100%; margin-bottom: 10px;
 }
 
-/* התאמת טבלה למובייל */
-.table-responsive { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 12px; margin-bottom: 20px; }
+/* טבלה מותאמת לטלפון (גלילה הצידה) */
+.table-wrapper { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; direction: rtl; }
 .kids-table {
-    width: 100%; border-collapse: collapse; direction: rtl; font-family: 'Heebo', sans-serif;
-    font-size: 15px; margin-top: 10px; min-width: 600px; box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    width: 100%; border-collapse: collapse; min-width: 650px; font-size: 15px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05); border-radius: 10px; overflow: hidden;
 }
-.kids-table thead tr { background: #4f46e5; color: white; }
-.kids-table th { padding: 12px 16px; text-align: right !important; font-weight: 700; font-size: 14px; white-space: nowrap; }
-.kids-table tbody tr { background: white; }
-.kids-table tbody tr:nth-child(even) { background: #f8f8ff; }
-.kids-table tbody tr:hover { background: #ede9fe; }
-.kids-table td { padding: 11px 16px; text-align: right !important; border-bottom: 1px solid #e5e7eb; vertical-align: middle; }
-.risk-badge { display: inline-block; padding: 3px 10px; border-radius: 99px; font-weight: 700; font-size: 13px; color: white; white-space: nowrap; }
-.positive { color: #16a34a; font-weight: 700; }
-.negative { color: #dc2626; font-weight: 700; }
+.kids-table th { background: #4f46e5; color: white; padding: 12px; font-weight: 700; white-space: nowrap; }
+.kids-table td { padding: 12px; border-bottom: 1px solid #eee; background: white; vertical-align: middle; white-space: nowrap; }
+.kids-table tr:nth-child(even) td { background: #f8fafc; }
+.risk-badge { padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: bold; color: white; }
 
-/* התאמות עיצוב לסלולר (מסכים קטנים) */
-@media (max-width: 768px) {
-    .mascot-card { flex-direction: column; text-align: center; padding: 15px; gap: 10px; }
-    .mascot-emoji { font-size: 60px; }
-    .mascot-text h2 { font-size: 22px; }
-    .mascot-text p { font-size: 16px; }
-    .refresh-bar { flex-direction: column; text-align: center; gap: 5px; }
-    .id-header { flex-direction: column !important; align-items: center !important; text-align: center; gap: 15px; }
-    .id-header img { margin-top: 10px; }
-    .id-grid { grid-template-columns: 1fr !important; }
-    .calc-grid { flex-direction: column !important; gap: 15px !important; }
-}
+/* כרטיסיות עיצוב כלליות */
+.info-box { background: #f8fafc; padding: 15px; border-radius: 12px; height: 100%; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+.metric-box { padding: 15px; border-radius: 12px; text-align: center; height: 100%; display: flex; flex-direction: column; justify-content: center;}
 </style>
 """, unsafe_allow_html=True)
 
-# =================== מאגר חברות ענק להגרלה ===================
+# =================== מאגר חברות ענק ===================
 FULL_KIDS_COMPANIES = {
     "RBLX": {"name": "רובלוקס 🎮", "desc": "פלטפורמה ענקית לבניית משחקים.", "products": "עולמות וירטואליים וכסף משחק (Robux).", "fun_fact": "בכל יום נכנסים למשחק יותר מ-60 מיליון ילדים!", "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Roblox_player_icon_black.svg/120px-Roblox_player_icon_black.svg.png", "risk": 9},
     "DIS": {"name": "דיסני 🎢", "desc": "חברת הבידור והסרטים הגדולה בעולם.", "products": "סרטי מארוול, פארקי שעשועים ובובות.", "fun_fact": "הדמות הראשונה שוולט דיסני צייר הייתה ארנב, לא עכבר!", "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Disney_wordmark.svg/200px-Disney_wordmark.svg.png", "risk": 5},
@@ -103,47 +67,22 @@ FULL_KIDS_COMPANIES = {
     "MAT": {"name": "מאטל 🏎️", "desc": "יצרנית הצעצועים הענקית.", "products": "ברבי, מכוניות הוט-ווילס (Hot Wheels) ומשחק הקלפים טאקי/אونو.", "fun_fact": "בובת הברבי הראשונה בעולם עלתה רק 3 דולר!", "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Mattel_logo.svg/200px-Mattel_logo.svg.png", "risk": 7}
 }
 
-FULL_BACKUP_DATA = {
-    "RBLX": {"div": 0.0, "growth": 35.2}, "DIS": {"div": 0.0, "growth": -9.8},
-    "MCD": {"div": 2.4, "growth": 11.5}, "NKE": {"div": 1.6, "growth": -17.4},
-    "KO": {"div": 3.0, "growth": 6.2}, "AAPL": {"div": 0.5, "growth": 26.8},
-    "MSFT": {"div": 0.8, "growth": 30.0}, "SONY": {"div": 0.6, "growth": 15.0},
-    "NFLX": {"div": 0.0, "growth": 40.0}, "AMZN": {"div": 0.0, "growth": 50.0},
-    "HSY": {"div": 2.8, "growth": -10.0}, "MAT": {"div": 0.0, "growth": -5.0}
-}
+FULL_BACKUP_DATA = {k: {"div": random.uniform(0, 4), "growth": random.uniform(-20, 50)} for k in FULL_KIDS_COMPANIES.keys()}
 
-# ניהול הגרלת החברות - שומרים בזיכרון כדי שלא יקפוץ
 if "active_tickers" not in st.session_state:
     st.session_state.active_tickers = random.sample(list(FULL_KIDS_COMPANIES.keys()), 6)
 
-# =================== תחילת הממשק ===================
-st.markdown("""
-<div class="mascot-card">
-<div class="mascot-emoji">🦉</div>
-<div class="mascot-text">
-<h2>היי חברים! אני שוקי הינשוף!</h2>
-<p>אני כאן כדי לעזור לכם להבין איך הבורסה עובדת. <br>מוכנים לצאת להרפתקה ולגלות איך החברות הכי גדולות בעולם עושות כסף?</p>
-</div>
-</div>
-""", unsafe_allow_html=True)
-
-st.title("🎢 משחק ההשקעות הראשון שלי!")
+# =================== Header נקי ורספונסיבי ===================
+st.info("🦉 **היי חברים! אני שוקי הינשוף!** \n\n אני כאן כדי לעזור לכם להבין איך הבורסה עובדת. מוכנים לצאת להרפתקה ולגלות איך החברות הכי גדולות בעולם עושות כסף?")
 
 now_str = datetime.now().strftime("%H:%M:%S")
-st.markdown(f"""
-<div class="refresh-bar">
-<span>🔄 הנתונים מתעדכנים אוטומטית מהבורסה</span>
-<span>⏰ עדכון אחרון: {now_str}</span>
-</div>
-""", unsafe_allow_html=True)
+st.success(f"🔄 **הנתונים מתעדכנים אוטומטית מהבורסה** | ⏰ עדכון אחרון: {now_str}")
 
-# כפתור הגרלה בתפריט הצדדי
-if st.sidebar.button("🎲 שוקי, תביא חברות חדשות!", use_container_width=True):
+if st.sidebar.button("🎲 שוקי, תביא חברות חדשות!"):
     st.session_state.active_tickers = random.sample(list(FULL_KIDS_COMPANIES.keys()), 6)
 
 tab1, tab2 = st.tabs(["🚀 המשחק והחברות", "📚 הבורסה של שוקי"])
 
-# =================== טאב המשחק ===================
 with tab1:
     @st.cache_data(ttl=120)
     def fetch_kids_data(tickers):
@@ -166,55 +105,29 @@ with tab1:
             except Exception:
                 pass
                 
-        # שימוש בגיבוי אם השרת נחסם
         if len(rows) == 0:
             for ticker in tickers:
                 d = FULL_KIDS_COMPANIES[ticker]
                 rows.append({
                     "ticker": ticker, "name": d["name"], "desc": d["desc"],
                     "products": d["products"], "fun_fact": d["fun_fact"], "image": d["image"],
-                    "risk": d["risk"], "div": FULL_BACKUP_DATA[ticker]["div"], 
-                    "growth": FULL_BACKUP_DATA[ticker]["growth"], "is_dummy": True 
+                    "risk": d["risk"], "div": round(FULL_BACKUP_DATA[ticker]["div"], 2), 
+                    "growth": round(FULL_BACKUP_DATA[ticker]["growth"], 2), "is_dummy": True 
                 })
         return pd.DataFrame(rows)
 
-    with st.spinner("🔄 שוקי הינשוף אוסף נתונים מהבורסה..."):
+    with st.spinner("🔄 שוקי אוסף נתונים..."):
         df = fetch_kids_data(tuple(st.session_state.active_tickers))
         
-    if df.empty:
-        st.error("תקלה לא צפויה בטעינת הנתונים.")
-        st.stop()
-        
     if "is_dummy" in df.columns:
-        st.info("💡 המערכת של הבורסה קצת עמוסה כרגע. נטענו נתוני אמת מהעדכון האחרון כדי שלא נפסיק לשחק!")
+        st.warning("💡 המערכת עמוסה. נטענו נתוני גיבוי כדי שלא נפסיק לשחק!")
 
-    # סליידרים בצד
-    st.sidebar.markdown("""
-    <div dir="rtl" style="text-align:right; font-family:'Heebo',sans-serif; padding-top:10px; border-top: 2px dashed #d1d5db;">
-    <h3 style="margin:10px 0 4px 0;">🕹️ איזה משקיע אתה?</h3>
-    <p style="font-size:13px; color:#6b7280; margin:0 0 15px 0;">הזז את המדים כדי להתאים את הציונים אליך!</p>
-    </div>
-    """, unsafe_allow_html=True)
-
-    st.sidebar.markdown('<div dir="rtl" style="font-family:Heebo,sans-serif;font-weight:700;margin-bottom:4px;">🚀 כמה חשובה לי צמיחה מהירה?</div>', unsafe_allow_html=True)
-    w_growth = st.sidebar.slider(" ", 0, 10, 5, key="growth_slider")
-    st.sidebar.markdown('<div dir="rtl" style="font-size:12px;color:#6b7280;margin-top:-12px;margin-bottom:16px;font-family:Heebo,sans-serif;">0 = לא אכפת לי &nbsp;|&nbsp; 10 = הכי חשוב!</div>', unsafe_allow_html=True)
-
-    st.sidebar.markdown('<div dir="rtl" style="font-family:Heebo,sans-serif;font-weight:700;margin-bottom:4px;">💰 כמה חשוב לי לקבל דמי כיס?</div>', unsafe_allow_html=True)
-    w_dividend = st.sidebar.slider("  ", 0, 10, 5, key="div_slider")
-    st.sidebar.markdown('<div dir="rtl" style="font-size:12px;color:#6b7280;margin-top:-12px;margin-bottom:16px;font-family:Heebo,sans-serif;">0 = לא אכפת לי &nbsp;|&nbsp; 10 = הכי חשוב!</div>', unsafe_allow_html=True)
-
-    st.sidebar.markdown('<div dir="rtl" style="font-family:Heebo,sans-serif;font-weight:700;margin-bottom:4px;">🎢 כמה סיכון אני מוכן לקחת?</div>', unsafe_allow_html=True)
-    w_risk = st.sidebar.slider("   ", 1, 10, 5, key="risk_slider")
-    risk_color_label = "#16a34a" if w_risk <= 3 else "#d97706" if w_risk <= 6 else "#dc2626"
-    risk_text_label  = "🟢 בטוח ורגוע" if w_risk <= 3 else "🟡 קצת מכל דבר" if w_risk <= 6 else "🔴 אני אוהב רכבות הרים!"
-    st.sidebar.markdown(f"""
-    <div dir="rtl" style="font-size:12px;color:#6b7280;margin-top:-12px;font-family:Heebo,sans-serif;">1 = רק בטוחים &nbsp;|&nbsp; 10 = אוהב להסתכן!</div>
-    <div dir="rtl" style="text-align:center;font-family:'Heebo',sans-serif;background:#f3f4f6;border-radius:8px;padding:8px;font-size:14px;margin-top:8px;">
-    סגנון ההשקעה שלך: <br><strong style="color:{risk_color_label};">{risk_text_label} ({w_risk}/10)</strong>
-    </div>
-    """, unsafe_allow_html=True)
-
+    # סליידרים
+    st.sidebar.markdown("### 🕹️ איזה משקיע אתה?")
+    w_growth = st.sidebar.slider("🚀 כמה חשובה לי צמיחה?", 0, 10, 5)
+    w_dividend = st.sidebar.slider("💰 כמה חשוב לי דמי כיס?", 0, 10, 5)
+    w_risk = st.sidebar.slider("🎢 כמה סיכון לקחת?", 1, 10, 5)
+    
     def calc_stars(row):
         total_w = w_growth + w_dividend + 5
         if total_w == 0: total_w = 1
@@ -234,131 +147,93 @@ with tab1:
         g_sign = "+" if row["growth"] >= 0 else ""
         rows_html += f"""
         <tr>
-        <td><strong>{row['name']}</strong><br><small style="color:#6b7280;">{row['ticker']}</small></td>
+        <td><strong>{row['name']}</strong></td>
         <td><span class="risk-badge" style="background:{risk_color(row['risk'])};">{risk_label(row['risk'])} ({row['risk']}/10)</span></td>
         <td>{row['div']}%</td>
         <td class="{g_cls}">{g_sign}{row['growth']}%</td>
-        <td style="font-size:18px;letter-spacing:2px;">{stars}</td>
+        <td style="font-size:16px;">{stars}</td>
         </tr>"""
 
     st.subheader("🏆 טבלת החברות להשקעה")
-    # עטיפת הטבלה ב-div שמאפשר גלילה במובייל
     st.markdown(f"""
-    <div class="table-responsive">
-    <table class="kids-table">
-    <thead><tr>
-    <th>🏢 שם החברה</th><th>🎢 רמת סיכון</th><th>💰 דמי כיס (%)</th><th>📈 צמיחה השנה</th><th>⭐ התאמה</th>
-    </tr></thead>
-    <tbody>{rows_html}</tbody>
-    </table>
+    <div class="table-wrapper">
+        <table class="kids-table">
+            <thead><tr><th>🏢 שם החברה</th><th>🎢 רמת סיכון</th><th>💰 דמי כיס (%)</th><th>📈 צמיחה השנה</th><th>⭐ התאמה</th></tr></thead>
+            <tbody>{rows_html}</tbody>
+        </table>
     </div>
     """, unsafe_allow_html=True)
 
     st.markdown("---")
     st.subheader("🔍 תעודת זהות לחברה")
     name_to_ticker = {row["name"]: row["ticker"] for _, row in df.iterrows()}
-    
     selected_name = st.selectbox("בחרו חברה כדי ללמוד עליה ולחשב רווחים:", list(name_to_ticker.keys()))
     sel = df[df["name"] == selected_name].iloc[0]
 
-    risk_dots = ("🔴" * sel['risk']) + ("⚪" * (10 - sel['risk']))
+    # חלוקה לעמודות אמיתיות שקורסות בסלולר בצורה מושלמת
+    col1, col2 = st.columns([1, 4])
+    with col1:
+        st.image(sel['image'], width=80)
+    with col2:
+        st.markdown(f"## {sel['name']}")
+        st.caption(f"התאמה אישית אליך: {calc_stars(sel)}")
 
-    st.markdown(f"""
-    <div dir="rtl" style="background:white; border: 2px solid #e5e7eb; border-radius:15px; padding:25px; margin-top: 15px; font-family:'Heebo',sans-serif; box-shadow: 0 4px 10px rgba(0,0,0,0.03);">
-    <div class="id-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px dashed #e5e7eb; padding-bottom: 15px;">
-    <div>
-    <h2 style="margin:0 0 5px 0; color:#111827; font-size: 32px;">{sel['name']} ({sel['ticker']})</h2>
-    <span style="background-color: #f3f4f6; padding: 5px 12px; border-radius: 20px; font-weight: 600; color: #4b5563; font-size: 14px;">מדד התאמה אישי: {calc_stars(sel)}</span>
-    </div>
-    <img src="{sel['image']}" style="height: 60px; object-fit: contain;">
-    </div>
-    
-    <div class="id-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
-    <div style="background: #f8fafc; padding: 15px; border-radius: 10px;">
-    <h4 style="margin:0 0 10px 0; color:#3b82f6;">🏢 מה החברה עושה?</h4>
-    <p style="margin:0; color:#333;">{sel['desc']}</p>
-    </div>
-    <div style="background: #fffbeb; padding: 15px; border-radius: 10px;">
-    <h4 style="margin:0 0 10px 0; color:#d97706;">🛒 מה היא מוכרת לנו?</h4>
-    <p style="margin:0; color:#333;">{sel['products']}</p>
-    </div>
-    </div>
-    
-    <div style="background: #f0fdfa; padding: 15px; border-radius: 10px; margin-bottom: 25px;">
-    <h4 style="margin:0 0 5px 0; color:#0d9488;">💡 הידעת? (עובדת בונוס!)</h4>
-    <p style="margin:0; color:#115e59; font-weight: 600;">{sel['fun_fact']}</p>
-    </div>
-    
-    <h3 style="margin-bottom: 15px;">📊 המספרים של החברה</h3>
-    <div style="display: flex; gap: 15px; flex-wrap: wrap;">
-    <div style="flex: 1; min-width: 120px; background: #f3f4f6; padding: 15px; border-radius: 10px; text-align: center;">
-    <div style="font-size: 14px; color: #6b7280; margin-bottom: 5px; font-weight: 700;">מד סיכון</div>
-    <div style="font-size: 18px; margin-bottom: 5px;">{sel['risk']} / 10</div>
-    <div style="font-size: 12px;">{risk_dots}</div>
-    </div>
-    <div style="flex: 1; min-width: 120px; background: #f3f4f6; padding: 15px; border-radius: 10px; text-align: center;">
-    <div style="font-size: 14px; color: #6b7280; margin-bottom: 5px; font-weight: 700;">דמי כיס (דיבידנד)</div>
-    <div style="font-size: 24px; font-weight: 700; color: #111827;">{sel['div']}%</div>
-    <div style="font-size: 12px; color: #4b5563;">מתוך הסכום לשנה</div>
-    </div>
-    <div style="flex: 1; min-width: 120px; background: {'#dcfce7' if sel['growth'] >= 0 else '#fee2e2'}; padding: 15px; border-radius: 10px; text-align: center;">
-    <div style="font-size: 14px; color: #6b7280; margin-bottom: 5px; font-weight: 700;">צמיחה בשנה האחרונה</div>
-    <div style="font-size: 24px; font-weight: 700; color: {'#166534' if sel['growth'] >= 0 else '#991b1b'};">
-    {'+' if sel['growth']>=0 else ''}{sel['growth']}%
-    </div>
-    </div>
-    </div>
-    </div>
-    """, unsafe_allow_html=True)
-    
-    # =================== מחשבון השקעות אינטראקטיבי ===================
+    st.write("<br>", unsafe_allow_html=True)
+
+    col1, col2 = st.columns(2)
+    with col1:
+        st.markdown(f"<div class='info-box'><h4 style='color:#3b82f6; margin-top:0;'>🏢 מה החברה עושה?</h4>{sel['desc']}</div>", unsafe_allow_html=True)
+    with col2:
+        st.markdown(f"<div class='info-box'><h4 style='color:#d97706; margin-top:0;'>🛒 מה מוכרים שם?</h4>{sel['products']}</div>", unsafe_allow_html=True)
+
+    st.write("<br>", unsafe_allow_html=True)
+    st.markdown(f"<div style='background:#f0fdfa; padding:15px; border-radius:12px; margin-bottom:20px;'><h4 style='color:#0d9488; margin-top:0;'>💡 הידעת?</h4>{sel['fun_fact']}</div>", unsafe_allow_html=True)
+
+    # נתונים במספרים בעמודות
+    risk_dots = ("🔴" * sel['risk']) + ("⚪" * (10 - sel['risk']))
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        st.markdown(f"<div class='metric-box' style='background:#f3f4f6;'><b>מד סיכון</b><br><span style='font-size:24px;'>{sel['risk']}/10</span><br><span style='font-size:12px;'>{risk_dots}</span></div>", unsafe_allow_html=True)
+    with col2:
+        st.markdown(f"<div class='metric-box' style='background:#f3f4f6;'><b>דמי כיס (דיבידנד)</b><br><span style='font-size:24px;'>{sel['div']}%</span><br><span style='font-size:12px;'>לשנה</span></div>", unsafe_allow_html=True)
+    with col3:
+        bg_col = "#dcfce7" if sel['growth'] >= 0 else "#fee2e2"
+        text_col = "#166534" if sel['growth'] >= 0 else "#991b1b"
+        st.markdown(f"<div class='metric-box' style='background:{bg_col};'><b>צמיחה אחרונה</b><br><span style='font-size:24px; color:{text_col}; font-weight:bold;'>{'+' if sel['growth']>=0 else ''}{sel['growth']}%</span></div>", unsafe_allow_html=True)
+
+    # =================== מחשבון ===================
     st.markdown("---")
-    st.subheader(f"🧮 מחשבון השקעות — כמה יהיה לנו אם נשקיע היום ב-{sel['name']}?")
+    st.subheader(f"🧮 מחשבון השקעות — כמה יהיה לנו בעתיד?")
     
-    calc_type = st.radio("איך הייתם רוצים להשקיע?", ["השקעה חד פעמית (נשים סכום היום וזהו)", "חסכון חודשי (נשים קצת כסף כל חודש מעכשיו)"], horizontal=True)
-    amount = st.number_input("כמה כסף (בשקלים) הייתם רוצים לשים?", min_value=10, max_value=10000, value=100, step=10)
+    calc_type = st.radio("איך נרצה להשקיע?", ["השקעה פעם אחת היום", "חסכון קבוע (לשים קצת כל חודש)"], horizontal=True)
+    amount = st.number_input("סכום בשקלים:", min_value=10, max_value=10000, value=100, step=10)
     
-    if "חד פעמית" in calc_type:
+    if "פעם אחת" in calc_type:
         total_invested = amount
         total_profit = amount * (sel['growth'] / 100)
-        final_amount = total_invested + total_profit
-        desc_text = f"נניח ששמנו היום {amount} ₪ בקופה, והחברה תגדל בדיוק כמו בשנה שעברה."
     else:
         total_invested = amount * 12
-        # בחיסכון חודשי הכסף לא יושב שנה שלמה אלא חצי שנה בממוצע, לכן נחלק את הצמיחה ב-2 כהערכה לילדים
         total_profit = total_invested * (sel['growth'] / 100) / 2 
-        final_amount = total_invested + total_profit
-        desc_text = f"נניח שנשים {amount} ₪ בכל חודש (סה״כ {total_invested} ₪ בשנה), והחברה תגדל כמו בשנה שעברה."
         
-    profit_color = "#16a34a" if total_profit >= 0 else "#dc2626"
+    final_amount = total_invested + total_profit
     profit_text = "הרווח הצפוי" if total_profit >= 0 else "ההפסד הצפוי"
-    
-    st.markdown(f"""
-    <div style="background: #f8fafc; border-radius: 12px; padding: 20px; text-align: center; border: 2px solid #e2e8f0; font-family:'Heebo',sans-serif;">
-        <h4 style="margin-top: 0; color: #334155;">התוצאה: {desc_text}</h4>
-        <div class="calc-grid" style="display: flex; justify-content: space-around; align-items: center; margin-top: 20px;">
-            <div style="background: white; padding: 15px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); width: 100%; max-width: 200px;">
-                <p style="margin: 0; color: #64748b; font-size: 14px; font-weight: bold;">הכסף שנכניס מהקופה שלנו:</p>
-                <h3 style="margin: 5px 0 0 0; color: #0f172a;">{total_invested:,.0f} ₪</h3>
-            </div>
-            <div style="font-size: 24px; color: #94a3b8;">+</div>
-            <div style="background: white; padding: 15px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); width: 100%; max-width: 200px; border-bottom: 4px solid {profit_color};">
-                <p style="margin: 0; color: #64748b; font-size: 14px; font-weight: bold;">{profit_text}:</p>
-                <h3 style="margin: 5px 0 0 0; color: {profit_color};">{abs(total_profit):,.0f} ₪</h3>
-            </div>
-            <div style="font-size: 24px; color: #94a3b8;">=</div>
-            <div style="background: #1e293b; padding: 15px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); width: 100%; max-width: 200px;">
-                <p style="margin: 0; color: #cbd5e1; font-size: 14px; font-weight: bold;">בעוד שנה יהיה לנו:</p>
-                <h3 style="margin: 5px 0 0 0; color: white;">{final_amount:,.0f} ₪</h3>
-            </div>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
+    profit_color = "#16a34a" if total_profit >= 0 else "#dc2626"
 
-    # =================== הר הכסף (הגרף החדש!) ===================
+    st.write(f"נניח שנשקיע לפי התכנית שלנו, והחברה תגדל בשנה הקרובה בדיוק כמו שהיא גדלה בשנה שעברה. הנה התוצאה:")
+    
+    # מחשבון בנוי בעמודות לסלולר
+    c1, c2, c3 = st.columns(3)
+    with c1:
+        st.markdown(f"<div class='metric-box' style='border:1px solid #e2e8f0;'><b>הכנסנו לקופה:</b><br><span style='font-size:26px;'>{total_invested:,.0f} ₪</span></div>", unsafe_allow_html=True)
+    with c2:
+        st.markdown(f"<div class='metric-box' style='border:1px solid #e2e8f0; border-bottom: 4px solid {profit_color};'><b>{profit_text}:</b><br><span style='font-size:26px; color:{profit_color};'>{abs(total_profit):,.0f} ₪</span></div>", unsafe_allow_html=True)
+    with c3:
+        st.markdown(f"<div class='metric-box' style='background:#1e293b; color:white;'><b>בעוד שנה יהיה לנו:</b><br><span style='font-size:26px;'>{final_amount:,.0f} ₪</span></div>", unsafe_allow_html=True)
+
+    # =================== מכונת הזמן במקום גרף ===================
     st.markdown("---")
-    st.subheader(f"🏔️ מסע המחיר — הר הכסף של {sel['name']}")
-    st.write("במקום גרף משעמם של מבוגרים, בואו נסתכל על המחיר כמו על מסע בהרים! ככל שההר עולה, החברה מרוויחה יותר וכל מניה שווה יותר כסף.")
+    st.subheader(f"🕰️ מכונת הזמן של {sel['name']}")
+    st.write("במקום להסתכל על גרף מסובך, בואו נראה מה קרה למחיר של החברה בשנה האחרונה:")
     
     try:
         hist = yf.Ticker(sel["ticker"]).history(period="1y")
@@ -367,89 +242,52 @@ with tab1:
             max_price = hist["Close"].max()
             curr_price = hist["Close"].iloc[-1]
             
-            st.markdown(f"""
-            <div style="display: flex; gap: 15px; text-align: center; margin-bottom: 20px; flex-wrap: wrap; font-family:'Heebo',sans-serif;">
-                <div style="flex: 1; min-width: 150px; background: #eff6ff; padding: 15px; border-radius: 12px; border: 2px dashed #bfdbfe;">
-                    <span style="font-size: 30px;">📉</span><br>
-                    <strong>העמק הכי נמוך</strong><br>
-                    <span style="font-size: 13px; color: #64748b;">הכי זול שהיה השנה</span><br>
-                    <span style="font-size: 22px; font-weight: bold; color: #2563eb;">${min_price:.0f}</span>
-                </div>
-                <div style="flex: 1; min-width: 150px; background: #fdf4ff; padding: 15px; border-radius: 12px; border: 2px dashed #fbcfe8;">
-                    <span style="font-size: 30px;">⛰️</span><br>
-                    <strong>הפסגה הגבוהה</strong><br>
-                    <span style="font-size: 13px; color: #64748b;">הכי יקר שהיה השנה</span><br>
-                    <span style="font-size: 22px; font-weight: bold; color: #db2777;">${max_price:.0f}</span>
-                </div>
-                <div style="flex: 1; min-width: 150px; background: #f0fdf4; padding: 15px; border-radius: 12px; border: 2px dashed #bbf7d0;">
-                    <span style="font-size: 30px;">🚩</span><br>
-                    <strong>איפה אנחנו היום?</strong><br>
-                    <span style="font-size: 13px; color: #64748b;">המחיר ברגע זה ממש</span><br>
-                    <span style="font-size: 22px; font-weight: bold; color: #16a34a;">${curr_price:.0f}</span>
-                </div>
-            </div>
-            """, unsafe_allow_html=True)
-            
-            st.area_chart(hist[["Close"]].rename(columns={"Close": "גובה ההר (מחיר החברה בדולרים)"}))
+            c1, c2, c3 = st.columns(3)
+            with c1:
+                st.markdown(f"<div class='metric-box' style='background:#eff6ff; border:2px dashed #bfdbfe;'>📉<br><b>הכי זול שהיה</b><br><span style='font-size:22px; color:#2563eb;'>${min_price:.0f}</span></div>", unsafe_allow_html=True)
+            with c2:
+                st.markdown(f"<div class='metric-box' style='background:#fdf4ff; border:2px dashed #fbcfe8;'>⛰️<br><b>הכי יקר שהיה</b><br><span style='font-size:22px; color:#db2777;'>${max_price:.0f}</span></div>", unsafe_allow_html=True)
+            with c3:
+                st.markdown(f"<div class='metric-box' style='background:#f0fdf4; border:2px dashed #bbf7d0;'>🚩<br><b>המחיר היום</b><br><span style='font-size:22px; color:#16a34a;'>${curr_price:.0f}</span></div>", unsafe_allow_html=True)
+
+            # הפירוש של שוקי
+            if curr_price >= max_price * 0.9:
+                verdict = "וואו! החברה נמצאת ממש קרוב לשיא שלה. כולם רוצים לקנות אותה עכשיו!"
+            elif curr_price <= min_price * 1.1:
+                verdict = "החברה עברה שנה לא קלה, והמחיר שלה עכשיו נמוך מאוד. משקיעים חכמים אולי יחשבו שזו 'מכירת חיסול'!"
+            else:
+                verdict = "החברה נמצאת איפשהו באמצע הדרך, עם עליות וירידות נורמליות."
+                
+            st.info(f"🦉 **השורה התחתונה של שוקי:** {verdict}")
     except Exception:
-        st.warning("שוקי הינשוף קצת התבלבל ולא הצליח לצייר את ההר כרגע. נסו שוב מאוחר יותר!")
+        st.warning("שוקי לא הצליח להפעיל את מכונת הזמן כרגע.")
 
 # =================== טאב הסבר וחידון ===================
 with tab2:
     st.header("📖 המדריך של שוקי הינשוף לבורסה")
-    st.write("ברוכים הבאים לבית הספר להשקעות! בואו נבין איך כל העסק הזה עובד:")
-
-    # הסבר 1 + סרטון בעברית
-    st.info("""
-    ### 🍋 שלב 1 — מה זו בכלל חברה?
-    תחשבו שפתחתם בקיץ **דוכן לימונדה** שכונתי. קניתם לימונים, סוכר וכוסות, והתחלתם למכור.
     
-    אם הרבה אנשים קונים מכם לימונדה — הדוכן שלכם מרוויח כסף ומצליח! 🎉 
-    חברות ענקיות כמו אפל או קוקה-קולה עובדות בדיוק ככה, פשוט בקנה מידה של כל העולם.
-    """)
-    st.write("🎥 **צפו בהסבר מעולה של 'כאן סקרנים' על איך בכלל עובד כסף:**")
+    st.info("### 🍋 שלב 1 — מה זו בכלל חברה?\nתחשבו שפתחתם בקיץ **דוכן לימונדה** שכונתי. אם הרבה אנשים קונים מכם — הדוכן מרוויח כסף ומצליח! 🎉 חברות ענקיות כמו אפל עובדות בדיוק ככה, רק בגדול.")
     st.video("https://www.youtube.com/watch?v=Kz6pG1Y4L1s") 
 
-    # הסבר 2 + סרטון בעברית
-    st.success("""
-    ### 🧩 שלב 2 — מה זו בעצם מניה?
-    נניח שהלימונדה שלכם כל כך טעימה, שאתם רוצים לפתוח **עוד 10 דוכנים!** אבל... הקופה שלכם ריקה ואין לכם מספיק כסף.
-    
-    מה עושים? אתם מציעים לחברים: **"תנו לי קצת כסף, ובתמורה אתן לכם חתיכה מהדוכן שלי!"**
-    
-    כל חתיכה כזאת נקראת **מניה**. כשאתם קונים מניה של דיסני, אתם הופכים ל**שותפים** קטנטנים בחברה שלהם!
-    """)
-    st.write("🎥 **איך הבורסה עובדת? צפו באנימציה של 'כאן 11':**")
+    st.success("### 🧩 שלב 2 — מה זו בעצם מניה?\nרוצים לפתוח **עוד 10 דוכנים** אבל אין כסף? אתם אומרים לחברים: 'תנו לי קצת כסף, ובתמורה אתן לכם חתיכה מהדוכן שלי!'. כל חתיכה כזאת נקראת **מניה**.")
     st.video("https://www.youtube.com/watch?v=R9_W7z1RpsU") 
 
-    # הסבר 3 + סרטון בעברית
-    st.warning("""
-    ### 💰 שלב 3 — איך מרוויחים מזה כסף?
-    **1️⃣ המניה נהיית שווה יותר (צמיחה):** אם החברה מצליחה, כולם ירצו לקנות את ה"חתיכות" שלה. ככל שיש יותר ביקוש, המחיר עולה ותוכלו למכור אותן ביותר ממה שקניתם! 🤑
-    
-    **2️⃣ דמי כיס (דיבידנד):** כשהחברה מרוויחה המון, היא מחלקת לשותפים שלה חלק מהרווחים במזומן ישר לחשבון! 💌
-    """)
-    st.write("🎥 **צפו בהסבר נוסף לילדים על חיסכון והשקעות:**")
+    st.warning("### 💰 שלב 3 — איך מרוויחים מזה כסף?\n**1️⃣ צמיחה:** אם החברה מצליחה, כולם רוצים את ה'חתיכות' שלה. המחיר עולה ותוכלו למכור ברווח! 🤑\n**2️⃣ דיבידנד:** כשהחברה מרוויחה המון, היא מחלקת לשותפים מזומן ישר לחשבון! 💌")
     st.video("https://www.youtube.com/watch?v=e_K0XqQz7-s") 
 
     st.markdown("---")
     st.subheader("🧠 החידון של שוקי הינשוף! (אינסוף שאלות)")
     st.write("בואו נבדוק מה למדנו! השאלות מתחלפות בכל פעם שהטיימר מגיע לאפס:")
 
-    # מנוע אינסוף השאלות
     def get_infinite_questions_pool():
         pool = [
             {"q": "מה זה דיבידנד?", "options": ["סוג של מניה", "כסף שחברה מחלקת למשקיעים", "שם של חברה", "הלוואה מהבנק"], "answer": "כסף שחברה מחלקת למשקיעים", "ok": "🎉 מעולה! דיבידנד הוא כמו דמי כיס שהחברה מחלקת!", "bad": "❌ דיבידנד הוא כסף מזומן שחברה רווחית מחלקת למי שקנה את המניות שלה."},
             {"q": "מה בדרך כלל יותר בטוח?", "options": ["לקנות מניה של חברה אחת בלבד", "לקנות קרן סל שכוללת המון חברות"], "answer": "לקנות קרן סל שכוללת המון חברות", "ok": "🎉 נכון! פיזור בין הרבה חברות = פחות סיכון!", "bad": "❌ כשקונים הרבה חברות יחד (קרן סל) הסיכון יורד כי אנחנו לא תלויים רק בחברה אחת."},
-            {"q": "חברה ותיקה ויציבה כמו קוקה-קולה נחשבת בדרך כלל...", "options": ["מסוכנת מאוד", "יציבה ובטוחה יחסית", "כמעט ולא מרוויחה", "גדלה הכי מהר בעולם"], "answer": "יציבה ובטוחה יחסית", "ok": "🎉 נכון! חברות ותיקות וענקיות נוטות להיות יציבות יותר.", "bad": "❌ חברות ותיקות כמו קוקה-קולה נחשבות יציבות כי כולם כבר מכירים אותן והן מוכרות באופן קבוע."},
-            {"q": "מה זה 'תיק השקעות'?", "options": ["תיק בית ספר שמחביאים בו כסף", "אוסף של כל המניות וההשקעות שיש לנו", "מזוודה מיוחדת של הבנק", "תיק שקונים בחנות של דיסני"], "answer": "אוסף של כל המניות וההשקעות שיש לנו", "ok": "🎉 מעולה! ה'תיק' הוא פשוט השם של כלל המניות שאנחנו מחזיקים.", "bad": "❌ 'תיק השקעות' זה פשוט השם הכללי לכל המניות שאנחנו מחזיקים יחד."},
             {"q": "למה מומלץ לפזר את הכסף בין כמה חברות שונות?", "options": ["כי ככה זה נראה יותר יפה", "כי זה החוק בישראל", "כדי שאם חברה אחת תפסיד, האחרות יוכלו לאזן אותה", "אי אפשר לפזר את הכסף"], "answer": "כדי שאם חברה אחת תפסיד, האחרות יוכלו לאזן אותה", "ok": "🎉 נכון! זה נקרא 'פיזור סיכונים'. לא שמים את כל הביצים בסל אחד!", "bad": "❌ אנחנו מפזרים כדי לא להיות תלויים רק בהצלחה של חברה אחת. זה מקטין סיכון!"},
             {"q": "מה עלול לקרות אם נקנה מניה והחברה תתחיל להפסיד הרבה כסף?", "options": ["ערך המניה עלול לרדת", "נצטרך לשלם להם קנס", "המניה תהפוך למטבע זהב", "לא קורה כלום"], "answer": "ערך המניה עלול לרדת", "ok": "🎉 נכון. כשהחברה מפסידה, פחות אנשים רוצים אותה והמחיר שלה יורד.", "bad": "❌ במצב כזה, אנשים ירצו למכור את המניה שלהם, וערך המניה ירד."},
-            {"q": "מי מחליט כמה עולה כל מניה בבורסה?", "options": ["הממשלה", "האנשים שקונים ומוכרים (היצע וביקוש)", "מנהל הבורסה", "הטלוויזיה"], "answer": "האנשים שקונים ומוכרים (היצע וביקוש)", "ok": "🎉 נכון! מחיר המניה נקבע לפי כמה אנשים רוצים לקנות או למכור אותה.", "bad": "❌ המחיר נקבע לפי 'היצע וביקוש' - אם הרבה אנשים רוצים לקנות, המחיר עולה!"},
             {"q": "האם בורסה היא כמו קסם שמתעשרים ממנו ביום אחד?", "options": ["כן, תמיד מרוויחים בתוך יום!", "לא, זה דורש סבלנות, למידה והשקעה לאורך שנים", "כן, מספיק ללחוץ על כפתור", "לא, אי אפשר להרוויח בבורסה בכלל"], "answer": "לא, זה דורש סבלנות, למידה והשקעה לאורך שנים", "ok": "🎉 בדיוק! השקעה נכונה בבורסה היא כמו לשתול עץ - לוקח לו זמן לצמוח, אבל בסוף קוטפים פירות!", "bad": "❌ הבורסה היא לא קסם. כדי להרוויח בה באמת, צריך להשקיע בחברות טובות ולחכות בסבלנות הרבה זמן."}
         ]
 
-        # יצירת שאלות חשבון מתחלפות לחלוטין
         for _ in range(25):
             buy = random.randint(10, 80) * 10
             profit = random.randint(2, 6) * 10
@@ -492,25 +330,16 @@ with tab2:
             
         return pool
 
-    # התיקון הקריטי: שמירת השאלות בזיכרון (session_state) כדי שלא יתחלפו באמצע פתרון החידון
     if "quiz_questions" not in st.session_state or st.session_state.get("last_refresh") != refresh_count:
-        ALL_QUESTIONS = get_infinite_questions_pool()
-        st.session_state.quiz_questions = random.sample(ALL_QUESTIONS, k=5)
+        st.session_state.quiz_questions = random.sample(get_infinite_questions_pool(), k=5)
         st.session_state.last_refresh = refresh_count
 
     for i, item in enumerate(st.session_state.quiz_questions):
         st.markdown(f"#### ❓ שאלה {i+1}: {item['q']}")
-        choice = st.radio(
-            "בחר תשובה נכונה:",
-            item["options"],
-            index=None,
-            key=f"quiz_{st.session_state.last_refresh}_{i}",
-            label_visibility="collapsed"
-        )
+        choice = st.radio("בחר תשובה:", item["options"], index=None, key=f"quiz_{st.session_state.last_refresh}_{i}", label_visibility="collapsed")
         
         if choice == item["answer"]:
             st.success(item["ok"])
         elif choice is not None:
             st.error(item["bad"])
-        
         st.write("<br>", unsafe_allow_html=True)
